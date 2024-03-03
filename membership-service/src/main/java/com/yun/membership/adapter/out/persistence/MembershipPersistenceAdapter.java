@@ -13,27 +13,31 @@ import org.springframework.data.domain.Pageable;
 @RequiredArgsConstructor
 public class MembershipPersistenceAdapter implements RegisterMembershipPort, ReadMembershipPort {
     private final MembershipJpaRepository membershipJpaRepository;
+    private final MembershipMapper mapper;
     @Override
-    public MembershipEntity createdMembership(Membership membership) {
-        return membershipJpaRepository.save(MembershipEntity.of(
+    public Membership createdMembership(Membership membership) {
+        MembershipEntity membershipEntity = membershipJpaRepository.save(MembershipEntity.of(
                 membership.getName(),
                 membership.getAddress(),
                 membership.getEmail(),
                 membership.isValid(),
                 membership.isCorp()
         ));
+        return mapper.mapToDomainEntity(membershipEntity);
     }
 
     @Override
-    public MembershipEntity findByMembershipId(Membership.MembershipId membershipId) {
-        return membershipJpaRepository.findById(Long.valueOf(membershipId.getId()))
+    public Membership findByMembershipId(Membership.MembershipId membershipId) {
+        MembershipEntity byMembershipId = membershipJpaRepository.findById(Long.valueOf(membershipId.getId()))
                 .orElseThrow(() -> {
                     throw new EntityNotFoundException("회원을 찾을 수 없습니다");
                 });
+        return mapper.mapToDomainEntity(byMembershipId);
     }
 
     @Override
-    public Page<MembershipEntity> findAllMembership(Pageable pageable) {
-        return membershipJpaRepository.findAll(pageable);
+    public Page<Membership> findAllMembership(Pageable pageable) {
+        return membershipJpaRepository.findAll(pageable)
+                .map(membershipEntity -> mapper.mapToDomainEntity(membershipEntity));
     }
 }

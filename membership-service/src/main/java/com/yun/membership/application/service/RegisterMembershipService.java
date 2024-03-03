@@ -1,7 +1,5 @@
 package com.yun.membership.application.service;
 
-import com.yun.membership.adapter.out.persistence.MembershipEntity;
-import com.yun.membership.adapter.out.persistence.MembershipMapper;
 import com.yun.membership.application.port.in.RegisterMembershipCommand;
 import com.yun.membership.application.port.in.RegisterMembershipUseCase;
 import com.yun.membership.application.port.out.RegisterMembershipPort;
@@ -18,12 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class RegisterMembershipService implements RegisterMembershipUseCase {
 
     private final RegisterMembershipPort registerMembershipPort;
-    private final MembershipMapper mapper;
     @Override
     public Membership registerMembership(RegisterMembershipCommand command) {
-        //command -> DB
-        MembershipEntity membershipEntity = registerMembershipPort.createdMembership(command.toMembership());
-        //entity -> membership
-        return mapper.mapToDomainEntity(membershipEntity);
+        return registerMembershipPort.createdMembership(command.toMembership());
     }
 }
