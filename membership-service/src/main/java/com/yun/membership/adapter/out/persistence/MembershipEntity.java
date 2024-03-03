@@ -31,6 +31,15 @@ public class MembershipEntity {
         return new MembershipEntity(null, name, address, email, isValid, isCorp);
     }
 
+    public void updateMembershipInfo(String name, String address) {
+        if (name == null || !name.isBlank()) {
+            this.name = name;
+        }
+        if (address == null || !address.isBlank()) {
+            this.address = address;
+        }
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
