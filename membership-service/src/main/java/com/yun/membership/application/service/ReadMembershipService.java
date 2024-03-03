@@ -1,7 +1,5 @@
 package com.yun.membership.application.service;
 
-import com.yun.membership.adapter.out.persistence.MembershipEntity;
-import com.yun.membership.adapter.out.persistence.MembershipMapper;
 import com.yun.membership.application.port.in.ReadMembershipCommand;
 import com.yun.membership.application.port.in.ReadMembershipUseCase;
 import com.yun.membership.application.port.out.ReadMembershipPort;
@@ -20,16 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 public class ReadMembershipService implements ReadMembershipUseCase {
 
     private final ReadMembershipPort readMembershipPort;
-    private final MembershipMapper mapper;
+
     @Override
     public Page<Membership> getAllMembershipUser(Pageable pageable) {
-        return readMembershipPort.findAllMembership(pageable)
-                .map(membershipEntity -> mapper.mapToDomainEntity(membershipEntity));
+        return readMembershipPort.findAllMembership(pageable);
     }
 
     @Override
     public Membership getMembershipsByMemberId(ReadMembershipCommand membershipIdCommand) {
-        MembershipEntity byMembershipId = readMembershipPort.findByMembershipId(membershipIdCommand.toMembershipId());
-        return mapper.mapToDomainEntity(byMembershipId);
+        return readMembershipPort.findByMembershipId(membershipIdCommand.toMembershipId());
     }
 }
