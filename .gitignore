@@ -69,7 +69,7 @@ cmake-build-*/
 *.iws
 
 # IntelliJ
-out/
+membership-service/out
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
@@ -191,8 +191,10 @@ gradle-app.setting
 *.hprof
 
 .idea/
-out/
+membership-service/out
 .DS_Store
 *.iml
 
 application-local.yml
+
+/env
