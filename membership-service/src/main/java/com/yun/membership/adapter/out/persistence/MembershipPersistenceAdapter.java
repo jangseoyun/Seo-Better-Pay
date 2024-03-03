@@ -1,5 +1,6 @@
 package com.yun.membership.adapter.out.persistence;
 
+import com.yun.membership.application.port.out.ModifyMembershipPort;
 import com.yun.membership.application.port.out.ReadMembershipPort;
 import com.yun.membership.application.port.out.RegisterMembershipPort;
 import com.yun.membership.domain.Membership;
@@ -11,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 
 @PersistenceAdapter
 @RequiredArgsConstructor
-public class MembershipPersistenceAdapter implements RegisterMembershipPort, ReadMembershipPort {
+public class MembershipPersistenceAdapter implements RegisterMembershipPort, ReadMembershipPort, ModifyMembershipPort {
     private final MembershipJpaRepository membershipJpaRepository;
     private final MembershipMapper mapper;
     @Override
@@ -39,5 +40,16 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Rea
     public Page<Membership> findAllMembership(Pageable pageable) {
         return membershipJpaRepository.findAll(pageable)
                 .map(membershipEntity -> mapper.mapToDomainEntity(membershipEntity));
+    }
+
+    @Override
+    public Membership updateMembershipInfo(Membership membership) {
+        MembershipEntity getMembership = membershipJpaRepository.findById(Long.parseLong(membership.getMembershipId()))
+                .orElseThrow(() -> {
+                    throw new EntityNotFoundException("회원 정보를 찾을 수 없습니다");
+                });
+        //TODO: email 수정시에는 해당 회원의 이메일 인증이 필요하다
+        getMembership.updateMembershipInfo(membership.getName(), membership.getAddress());
+        return mapper.mapToDomainEntity(membershipJpaRepository.save(getMembership));
     }
 }
