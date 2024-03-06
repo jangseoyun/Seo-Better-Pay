@@ -1,9 +1,10 @@
 package com.yun.membership.adapter.in.web;
 
+import com.yun.common.WebAdapter;
 import com.yun.membership.adapter.in.web.model.request.ReadMembershipRequest;
 import com.yun.membership.application.port.in.ReadMembershipUseCase;
 import com.yun.membership.domain.Membership;
-import common.WebAdapter;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

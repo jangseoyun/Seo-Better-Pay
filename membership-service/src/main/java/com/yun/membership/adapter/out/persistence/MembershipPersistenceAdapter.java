@@ -4,7 +4,7 @@ import com.yun.membership.application.port.out.ModifyMembershipPort;
 import com.yun.membership.application.port.out.ReadMembershipPort;
 import com.yun.membership.application.port.out.RegisterMembershipPort;
 import com.yun.membership.domain.Membership;
-import common.PersistenceAdapter;
+import com.yun.common.PersistenceAdapter;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;

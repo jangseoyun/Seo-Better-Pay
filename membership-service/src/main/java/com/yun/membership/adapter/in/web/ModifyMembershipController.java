@@ -1,9 +1,9 @@
 package com.yun.membership.adapter.in.web;
 
+import com.yun.common.WebAdapter;
 import com.yun.membership.adapter.in.web.model.request.ModifyMembershipRequest;
 import com.yun.membership.application.port.in.ModifyMembershipUseCase;
 import com.yun.membership.domain.Membership;
-import common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

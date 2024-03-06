@@ -3,7 +3,7 @@ package com.yun.membership.adapter.in.web;
 import com.yun.membership.adapter.in.web.model.request.RegisterMembershipRequest;
 import com.yun.membership.application.port.in.RegisterMembershipCommand;
 import com.yun.membership.application.port.in.RegisterMembershipUseCase;
-import common.WebAdapter;
+import com.yun.common.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
