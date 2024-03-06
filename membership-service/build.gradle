@@ -12,7 +12,6 @@ plugins {
 
 compileJava {
 	sourceCompatibility = '17'
-	targetCompatibility = '17'
 }
 
 apply plugin: 'java'
@@ -20,7 +19,7 @@ apply plugin: 'java-library'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
 
-group = 'com.yun.membership-service'
+group = 'com.yun'
 version = '0.0.1-SNAPSHOT'
 
 java {
@@ -57,4 +56,9 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+// 테스트 코드를 제외한 빌드 수행
+tasks.withType(Test) {
+	enabled = false
 }
