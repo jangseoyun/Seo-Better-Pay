@@ -1,4 +1,4 @@
-package common;
+package com.yun.common;
 
 import jakarta.validation.*;
 

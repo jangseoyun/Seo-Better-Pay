@@ -1,1 +1,3 @@
-rootProject.name = 'membership'
+rootProject.name = 'membership-service'
+
+include 'common'

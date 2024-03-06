@@ -4,7 +4,7 @@ import com.yun.membership.application.port.in.ModifyMembershipCommand;
 import com.yun.membership.application.port.in.ModifyMembershipUseCase;
 import com.yun.membership.application.port.out.ModifyMembershipPort;
 import com.yun.membership.domain.Membership;
-import common.UseCase;
+import com.yun.common.UseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
