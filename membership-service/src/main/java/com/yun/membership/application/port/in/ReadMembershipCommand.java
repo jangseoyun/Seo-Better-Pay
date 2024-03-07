@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class ReadMembershipCommand extends SelfValidating<ReadMembershipRequest> {
     @NotNull
     @NotBlank

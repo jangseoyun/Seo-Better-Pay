@@ -1,13 +1,12 @@
-buildscript {
-	dependencies {
-		classpath "io.spring.gradle:dependency-management-plugin:0.5.1.RELEASE"
-	}
-}
-
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.3'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.palantir.docker" version "0.36.0"
+}
+
+ext{
+	axonVersion="4.6.0"
 }
 
 compileJava {
@@ -61,4 +60,16 @@ tasks.named('test') {
 // 테스트 코드를 제외한 빌드 수행
 tasks.withType(Test) {
 	enabled = false
+}
+
+docker {
+	println(tasks.bootJar.outputs.files)
+	//이미지 이름
+	name rootProject.name + '-' + project.name + ":" + version
+	//어떤 dockerFile
+	dockerfile file('../Dockerfile')
+	//어떤 파일들을 dockerfile에 복사할 것인가
+	files tasks.bootJar.outputs.files
+	//docker에 전달할 인자
+	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
 }
