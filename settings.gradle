@@ -2,3 +2,4 @@ rootProject.name = 'seo-better-pay'
 
 include('membership-service')
 include('common')
+include('banking-service')
