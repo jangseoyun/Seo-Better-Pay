@@ -7,7 +7,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = true)
 public class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand> {
     @NotNull
     @NotBlank

@@ -1,4 +1,4 @@
-rootProject.name = 'SeoBetterPay'
+rootProject.name = 'seo-better-pay'
 
 include('membership-service')
 include('common')
