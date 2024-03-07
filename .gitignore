@@ -197,4 +197,6 @@ membership-service/out
 
 application-local.yml
 
+# env
 /env
+docker-compose.env
