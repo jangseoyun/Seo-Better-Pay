@@ -9,7 +9,7 @@ compileJava {
     sourceCompatibility = '17'
 }
 
-group = 'com.yun'
+group = 'com.yun.common'
 version = '0.0.1-SNAPSHOT'
 
 java {
