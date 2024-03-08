@@ -197,3 +197,5 @@ gradle-app.setting
 ### env, yml
 application-local.yml
 src/main/resources/env
+bankaccount-local.env
+.env
