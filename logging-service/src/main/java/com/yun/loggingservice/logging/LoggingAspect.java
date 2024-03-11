@@ -1,6 +1,6 @@
-package com.yun.common.logging;
+package com.yun.loggingservice.logging;
 
-import com.yun.common.kafka.LoggingProducer;
+import com.yun.loggingservice.kafka.LoggingProducer;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;

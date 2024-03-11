@@ -1,4 +1,5 @@
-package com.yun.common.kafka;
+package com.yun.loggingservice.kafka;
+
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -12,7 +13,7 @@ public class LoggingProducer {
     private final KafkaProducer<String, String> producer;
     private final String topic;
 
-    public LoggingProducer(@Value("${kafka.clusters.bootstrap.servers}") KafkaProducer<String, String> bootstrapServers,
+    public LoggingProducer(@Value("${kafka.clusters.bootstrapservers}") KafkaProducer<String, String> bootstrapServers,
                            @Value("${logging.topic}") String topic)
     {
         Properties properties = new Properties();

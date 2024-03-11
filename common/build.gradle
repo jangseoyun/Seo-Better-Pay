@@ -23,10 +23,7 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.springframework.kafka:spring-kafka'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    implementation 'org.springframework.boot:spring-boot-starter-aop:3.2.0'
-    testImplementation 'org.springframework.kafka:spring-kafka-test'
 }
 
 tasks.named('test') {
