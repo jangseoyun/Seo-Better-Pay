@@ -57,7 +57,6 @@ services:
       - "3306:3306"
     environment:
       - TZ=Asia/Seoul
-      - MYSQL_DATABASE=seo-better-pay
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
@@ -111,6 +110,18 @@ services:
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQL5InnoDBDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - KAFKA_CLUSTERS_BOOTSTRAP_SERVERS=kafka:29092
+      - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+
+  logging-service:
+    image: seo-better-pay-logging-service:0.0.1-SNAPSHOT
+    networks:
+      - seobetter_network
+    restart: always
+    depends_on:
+      - kafka
+      - zookeeper
+    environment:
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
 
 networks:
