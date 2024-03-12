@@ -3,6 +3,8 @@ package com.yun.banking.application.service;
 import com.yun.banking.adapter.out.external.bank.model.CallApiBankAccountRequest;
 import com.yun.banking.application.port.in.RegisterBankAccountCommand;
 import com.yun.banking.application.port.in.RegisterBankAccountUseCase;
+import com.yun.banking.application.port.out.GetMembershipForBankingPort;
+import com.yun.banking.application.port.out.MembershipServiceStatus;
 import com.yun.banking.application.port.out.RegisterBankAccountPort;
 import com.yun.banking.application.port.out.RequestBankAccountInfoPort;
 import com.yun.banking.domain.RegisteredBankAccount;
@@ -19,10 +21,15 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
 
     private final RegisterBankAccountPort registerBankAccountPort;
     private final RequestBankAccountInfoPort requestBankAccountInfoPort;
+    private final GetMembershipForBankingPort getMembershipForBankingPort;
 
     @Override
     public RegisteredBankAccount registerBankAccountByMembership(RegisterBankAccountCommand command) {
         //1. 회원 확인 (멤버십 서비스 확인?)
+        MembershipServiceStatus membershipStatus = getMembershipForBankingPort.getMembership(command.getMembershipId());
+        if (!membershipStatus.isValid()) {
+            return null;
+        }
 
         //2. 외부 실제 은행 계좌 (본인 계좌 정상 확인)
         //port -> adapter -> external

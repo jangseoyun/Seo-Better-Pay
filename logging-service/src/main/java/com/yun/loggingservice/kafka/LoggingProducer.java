@@ -2,7 +2,9 @@ package com.yun.loggingservice.kafka;
 
 
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -10,20 +12,20 @@ import java.util.Properties;
 
 @Component
 public class LoggingProducer {
-    private final KafkaProducer<String, String> producer;
-    private final String topic;
+    private KafkaProducer<String, String> producer;
+    @Value("${kafka.clusters.bootstrapservers}")
+    private String bootstrapServers;
+    @Value("${logging.topic}")
+    private String topic;
 
-    public LoggingProducer(@Value("${kafka.clusters.bootstrapservers}") KafkaProducer<String, String> bootstrapServers,
-                           @Value("${logging.topic}") String topic)
-    {
+    public LoggingProducer() {
         Properties properties = new Properties();
         //kafka:29092
-        properties.put("bootstrap.servers", bootstrapServers);
-        properties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        properties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
+        properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
-        this.producer = new KafkaProducer<>(properties);
-        this.topic = topic;
+        this.producer = new KafkaProducer<String, String>(properties);
     }
 
     //kafka cluster
