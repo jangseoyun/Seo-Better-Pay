@@ -13,7 +13,7 @@ import lombok.Getter;
 import static com.yun.money.domain.PayWalletMoney.*;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class IncreaseMoneyAmountCommand extends SelfValidating<IncreaseMoneyAmountRequest> {
 
     @NotNull

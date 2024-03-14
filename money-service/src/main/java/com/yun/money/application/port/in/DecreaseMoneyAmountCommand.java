@@ -15,7 +15,7 @@ import static com.yun.money.domain.PayWalletMoney.*;
 import static com.yun.money.domain.PayWalletMoney.generatedPayWalletChangeMoney;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class DecreaseMoneyAmountCommand extends SelfValidating<DecreaseMoneyAmountRequest> {
 
     @NotNull
