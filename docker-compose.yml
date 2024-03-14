@@ -113,6 +113,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - KAFKA_CLUSTERS_BOOTSTRAP_SERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+      - TASK_TOPIC=seobetterpay.task.topic
 
   logging-service:
     image: seo-better-pay-logging-service:0.0.1-SNAPSHOT

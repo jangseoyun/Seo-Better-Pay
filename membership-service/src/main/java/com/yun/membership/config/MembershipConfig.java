@@ -4,6 +4,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ComponentScan("com.yun.loggingservice")
+@ComponentScan(basePackages = {"com.yun.common", "com.yun.loggingservice"})
 public class MembershipConfig {
 }
