@@ -6,7 +6,7 @@ public record RegisterMembershipRequest(
         String name,
         String address,
         String email,
-        boolean isCorg
+        boolean isCorp
 ) {
     public RegisterMembershipCommand toCommand() {
         return RegisterMembershipCommand.of(
@@ -14,7 +14,7 @@ public record RegisterMembershipRequest(
                 this.email,
                 this.address,
                 true,
-                this.isCorg
+                this.isCorp
         );
     }
 }

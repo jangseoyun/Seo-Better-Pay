@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-@ComponentScan(basePackages = {"com.yun.common", "com.yun.loggingservice"})
+@ComponentScan(basePackages = {"com.yun.*", "com.yun.common"})
 @SpringBootApplication
 public class MembershipApplication {
 	public static void main(String[] args) {

@@ -16,4 +16,8 @@ public class SubTask {
     private String subTaskName;
     private MoneyTaskType moneyTaskType;
     private String status;
+
+    public void setStatus(String success) {
+        this.setStatus(success);
+    }
 }

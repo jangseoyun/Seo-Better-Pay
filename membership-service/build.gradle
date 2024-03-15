@@ -5,10 +5,6 @@ plugins {
 	id "com.palantir.docker" version "0.36.0"
 }
 
-ext{
-	axonVersion="4.6.0"
-}
-
 compileJava {
 	sourceCompatibility = '17'
 }

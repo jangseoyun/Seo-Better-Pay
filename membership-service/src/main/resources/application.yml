@@ -1,7 +1,7 @@
 logging:
   level:
-    com.car.sns: debug
-    org.springframework.web.servlet: debug
+    com.car.sns: trace
+    org.springframework.web.servlet: trace
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 spring:
@@ -19,3 +19,5 @@ spring:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
+
+
