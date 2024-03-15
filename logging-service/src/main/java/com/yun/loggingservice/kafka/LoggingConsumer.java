@@ -16,12 +16,10 @@ import java.util.Properties;
 public class LoggingConsumer {
 
     private KafkaConsumer<String, String> consumer;
-    @Value("${kafka.clusters.bootstrapservers}")
-    private String bootstrapServers;
-    @Value("${logging.topic}")
     private String topicName;
 
-    public LoggingConsumer() {
+    public LoggingConsumer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
+                           @Value("${logging.topic}") String topicName) {
 
         Properties properties = new Properties();
         properties.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -31,6 +29,7 @@ public class LoggingConsumer {
 
         this.consumer = new KafkaConsumer<>(properties);
         consumer.subscribe(Collections.singletonList(topicName));
+        this.topicName = topicName;
 
         Thread consumerThread = new Thread(() -> {
 

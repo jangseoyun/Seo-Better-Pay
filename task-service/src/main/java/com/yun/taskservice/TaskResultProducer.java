@@ -1,9 +1,7 @@
-package com.yun.money.adapter.out.kafka;
+package com.yun.taskservice;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yun.common.RechargingMoneyTask;
-import com.yun.money.application.port.out.SendRechargingMoneyTaskPort;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -14,37 +12,35 @@ import org.springframework.stereotype.Component;
 import java.util.Properties;
 
 @Component
-public class TaskProducer implements SendRechargingMoneyTaskPort {
-
+public class TaskResultProducer {
     private final KafkaProducer<String, String> producer;
     private final ObjectMapper objectMapper;
-    private String topic;
+    protected final String topic;
 
-    public TaskProducer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
-                        @Value("${task.topic}") String topic) {
+    public TaskResultProducer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
+                              @Value("${task.result.topic}") String topic) {
         Properties properties = new Properties();
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
 
-        this.producer = new KafkaProducer<>(properties);
         this.objectMapper = new ObjectMapper();
+        this.producer = new KafkaProducer<>(properties);
         this.topic = topic;
     }
 
-    @Override
-    public void sendRechargingMoneyTaskPort(RechargingMoneyTask moneyTask) {
+    public void sendTaskResult(String key, Object task) {
         String jsonStringToProduce;
         try {
-            jsonStringToProduce = objectMapper.writeValueAsString(moneyTask);
+            jsonStringToProduce = objectMapper.writeValueAsString(task);
         } catch (JsonProcessingException e) {
-            e.printStackTrace();
             throw new RuntimeException(e);
         }
-        ProducerRecord<String, String> record = new ProducerRecord<>(topic, moneyTask.getTaskId(), jsonStringToProduce);
+
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic, key, jsonStringToProduce);
         producer.send(record, (metadata, exception) -> {
             if (exception == null) {
-                //메세지 로그 출력
+                //
             } else {
                 exception.printStackTrace();
             }

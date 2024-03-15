@@ -13,12 +13,10 @@ import java.util.Properties;
 @Component
 public class LoggingProducer {
     private KafkaProducer<String, String> producer;
-    @Value("${kafka.clusters.bootstrapservers}")
-    private String bootstrapServers;
-    @Value("${logging.topic}")
     private String topic;
 
-    public LoggingProducer() {
+    public LoggingProducer(@Value("${kafka.clusters.bootstrapservers}") String bootstrapServers,
+                           @Value("${logging.topic}") String topic) {
         Properties properties = new Properties();
         //kafka:29092
         properties.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -26,6 +24,7 @@ public class LoggingProducer {
         properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
         this.producer = new KafkaProducer<String, String>(properties);
+        this.topic = topic;
     }
 
     //kafka cluster

@@ -76,7 +76,7 @@ services:
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - KAFKA_CLUSTERS_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
 
   banking-service:
@@ -93,9 +93,9 @@ services:
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - KAFKA_CLUSTERS_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
-      - SERVICE_MEMBERSHIP_URL=http://membership:8080
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
 
   money-service:
     image: seo-better-pay-money-service:0.0.1-SNAPSHOT
@@ -111,9 +111,11 @@ services:
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
       - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-      - KAFKA_CLUSTERS_BOOTSTRAP_SERVERS=kafka:29092
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
       - TASK_TOPIC=seobetterpay.task.topic
+      - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
 
   logging-service:
     image: seo-better-pay-logging-service:0.0.1-SNAPSHOT
@@ -121,11 +123,26 @@ services:
       - seobetter_network
     restart: always
     depends_on:
-      - kafka
       - zookeeper
+      - kafka
     environment:
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+      - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
+
+  task-service:
+    image: seo-better-pay-task-service:0.0.1-SNAPSHOT
+    networks:
+      - seobetter_network
+    restart: always
+    depends_on:
+      - zookeeper
+      - kafka
+    environment:
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+      - TASK_TOPIC=seobetterpay.task.topic
+      - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
 
 networks:
   seobetter_network:

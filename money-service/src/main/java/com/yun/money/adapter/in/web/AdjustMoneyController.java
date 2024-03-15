@@ -28,6 +28,13 @@ public class AdjustMoneyController {
         return ResponseEntity.ok().body(payWalletMoney);
     }
 
+    @PostMapping("/increase-async")
+    public ResponseEntity increaseMoneyAmountAsync(@RequestBody IncreaseMoneyAmountRequest increaseMoneyAmountRequest) {
+        log.info("increaseMoneyAmountAsync request : {}", increaseMoneyAmountRequest);
+        PayWalletMoney payWalletMoney = adjustMoneyUseCase.increaseMoneyAmountRequestAsync(increaseMoneyAmountRequest.toCommand());
+        return ResponseEntity.ok().body(payWalletMoney);
+    }
+
     @PostMapping("/decrease")
     public ResponseEntity decreaseMoneyAmount(@RequestBody DecreaseMoneyAmountRequest decreaseMoneyAmountRequest) {
         PayWalletMoney payWalletMoney = adjustMoneyUseCase.decreaseMoneyAmountRequest(decreaseMoneyAmountRequest.toCommand());
