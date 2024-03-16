@@ -117,6 +117,28 @@ services:
       - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
 
+  wiretransfer-service:
+    image: seo-better-pay-wiretransfer-service:0.0.1-SNAPSHOT
+    networks:
+      - seobetter_network
+    ports:
+      - "8084:8080"
+    restart: always
+    depends_on:
+      - mysql
+      - kafka
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/seo-better-pay?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=mysqluser
+      - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
+      - SPRING_JPA_PROPERTIES_HIBERNATE_DIALECT=org.hibernate.dialect.MySQLDialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+      - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
+      - SERVICE_MONEY_URL=http://money-service:8080
+
   logging-service:
     image: seo-better-pay-logging-service:0.0.1-SNAPSHOT
     networks:
