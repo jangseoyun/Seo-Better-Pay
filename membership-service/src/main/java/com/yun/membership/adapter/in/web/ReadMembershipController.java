@@ -1,6 +1,7 @@
 package com.yun.membership.adapter.in.web;
 
 import com.yun.common.WebAdapter;
+import com.yun.membership.adapter.in.web.model.MembershipResult;
 import com.yun.membership.adapter.in.web.model.request.ReadMembershipRequest;
 import com.yun.membership.application.port.in.ReadMembershipUseCase;
 import com.yun.membership.domain.Membership;
@@ -26,16 +27,12 @@ public class ReadMembershipController {
     @GetMapping("")
     public ResponseEntity findAllRegisterMember(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         Page<Membership> allMembershipUser = readMembershipUseCase.getAllMembershipUser(pageable);
-        return ResponseEntity
-                .ok()
-                .body(allMembershipUser);
+        return ResponseEntity.ok().body(allMembershipUser);
     }
 
     @GetMapping("/{membershipId}")
-    public ResponseEntity findByMembershipId(@PathVariable("membershipId") ReadMembershipRequest request) {
+    public ResponseEntity<MembershipResult> findByMembershipId(@PathVariable("membershipId") ReadMembershipRequest request) {
         Membership membership = readMembershipUseCase.getMembershipsByMemberId(request.toCommand());
-        return ResponseEntity
-                .ok()
-                .body(membership);
+        return ResponseEntity.ok().body(MembershipResult.success(membership));
     }
 }
