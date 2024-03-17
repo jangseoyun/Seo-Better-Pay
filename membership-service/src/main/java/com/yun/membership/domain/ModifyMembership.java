@@ -6,17 +6,15 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModifyMembership {
+
     private String membershipId;
-    private String membershipEmail;
     private String address;
 
-    public static ModifyMembership generateInMember(MembershipId membershipId,
-                                              MembershipAddress membershipAddress,
-                                              MembershipEmail membershipEmail) {
+    public static ModifyMembership generateInModifyMember(MembershipId membershipId,
+                                                          MembershipAddress membershipAddress) {
         return new ModifyMembership(
                 membershipId.id,
-                membershipAddress.address,
-                membershipEmail.email);
+                membershipAddress.address);
     }
 
     @Value
@@ -34,15 +32,6 @@ public class ModifyMembership {
 
         public MembershipAddress(String value) {
             this.address = value;
-        }
-    }
-
-    @Value
-    public static class MembershipEmail {
-        String email;
-
-        public MembershipEmail(String value) {
-            this.email = value;
         }
     }
 

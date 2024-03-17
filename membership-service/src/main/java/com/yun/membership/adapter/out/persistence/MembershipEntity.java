@@ -55,9 +55,9 @@ public class MembershipEntity {
         return new MembershipEntity(membershipId, membershipPw, membershipEmail, name, address, isValid, createdAt, modifiedAt, deletedAt);
     }
 
-    public void updateMembershipInfo(String name, String address) {
-        if (name == null || !name.isBlank()) {
-            this.name = name;
+    public void updateMembershipInfo(String membershipId, String address) {
+        if (membershipId == null || !membershipId.isBlank()) {
+            this.membershipId = membershipId;
         }
         if (address == null || !address.isBlank()) {
             this.address = address;

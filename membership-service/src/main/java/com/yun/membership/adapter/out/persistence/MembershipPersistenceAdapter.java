@@ -7,7 +7,6 @@ import com.yun.membership.application.port.out.RegisterMembershipPort;
 import com.yun.membership.domain.Membership;
 import com.yun.membership.domain.ModifyMembership;
 import com.yun.membership.exception.MembershipModuleException;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,9 +44,9 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Rea
     public Membership updateMembershipInfo(ModifyMembership modifyMembership) {
         MembershipEntity getMembership = membershipJpaRepository.findById(modifyMembership.getMembershipId())
                 .orElseThrow(() -> {
-                    throw new EntityNotFoundException("회원 정보를 찾을 수 없습니다");
+                    throw new MembershipModuleException(USER_NOTFOUND_ACCOUNT, USER_NOTFOUND_ACCOUNT.getMessage());
                 });
-        //TODO: email 수정시에는 해당 회원의 이메일 인증이 필요하다
+
         getMembership.updateMembershipInfo(modifyMembership.getMembershipId(), modifyMembership.getAddress());
         return mapper.mapToMembership(membershipJpaRepository.save(getMembership));
     }
