@@ -3,9 +3,11 @@ package com.yun.wiretransferservice.adapter.out.persistence;
 import com.yun.wiretransferservice.adapter.in.web.model.WireTransferType;
 import com.yun.wiretransferservice.domain.WireTransferRequestDomain;
 import com.yun.wiretransferservice.domain.WireTransferRequestStatus;
+import org.springframework.stereotype.Component;
 
 import static com.yun.wiretransferservice.domain.WireTransferRequestDomain.*;
 
+@Component
 public class WireTransferRequestMapper {
     public WireTransferRequestDomain mapToDomainEntity(WireTransferRequestEntity wireTransferRequestEntity) {
         return generatedWireTransfer(

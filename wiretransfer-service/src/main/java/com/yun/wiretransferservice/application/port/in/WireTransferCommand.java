@@ -26,10 +26,8 @@ public class WireTransferCommand extends SelfValidating<WireTransferRequest> {
     @NotEmpty
     private final String toBankAccountNumber;
     @NotNull
-    @NotEmpty
     private final int wireTransferAmount;
     @NotNull
-    @NotEmpty
     private final WireTransferType wireTransferType;
     private final boolean isValid;
 
@@ -38,14 +36,14 @@ public class WireTransferCommand extends SelfValidating<WireTransferRequest> {
                                 String toBankName,
                                 String toBankAccountNumber,
                                 int wireTransferAmount,
-                                WireTransferType wireTransferType,
+                                String wireTransferType,
                                 boolean isValid) {
         this.fromMembershipId = fromMembershipId;
         this.toMembershipId = toMembershipId;
         this.toBankName = toBankName;
         this.toBankAccountNumber = toBankAccountNumber;
         this.wireTransferAmount = wireTransferAmount;
-        this.wireTransferType = wireTransferType;
+        this.wireTransferType = validStringToWireTransferType(wireTransferType);
         this.isValid = isValid;
 
         this.validateSelf();
@@ -56,7 +54,7 @@ public class WireTransferCommand extends SelfValidating<WireTransferRequest> {
                                 String toBankName,
                                 String toBankAccountNumber,
                                 int wireTransferAmount,
-                                WireTransferType wireTransferType,
+                                String wireTransferType,
                                 boolean isValid) {
         return new WireTransferCommand(fromMembershipId,
                 toMembershipId,
@@ -80,4 +78,11 @@ public class WireTransferCommand extends SelfValidating<WireTransferRequest> {
         );
     }
 
+    private WireTransferType validStringToWireTransferType(String requestType) {
+        if (requestType.equals("SEOBETTERPAY_MEMBER")) {
+            return WireTransferType.SEOBETTERPAY_MEMBER;
+        }
+
+        return WireTransferType.EXTERNAL_BANK;
+    }
 }
