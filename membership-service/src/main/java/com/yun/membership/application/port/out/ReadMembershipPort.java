@@ -5,6 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface ReadMembershipPort {
-    Membership findByMembershipId(Membership.MembershipId membershipId);
+    Membership findByMembershipId(String membershipId);
     Page<Membership> findAllMembership(Pageable pageable);
 }

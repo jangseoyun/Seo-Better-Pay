@@ -1,8 +1,10 @@
 package com.yun.membership.adapter.in.web;
 
 import com.yun.common.WebAdapter;
+import com.yun.membership.adapter.in.web.model.MembershipResult;
 import com.yun.membership.adapter.in.web.model.request.RegisterMembershipRequest;
 import com.yun.membership.application.port.in.RegisterMembershipUseCase;
+import com.yun.membership.domain.Membership;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,10 +23,9 @@ public class RegisterMembershipController {
     private final RegisterMembershipUseCase registerMembershipUseCase;
 
     @PostMapping("/register")
-    public ResponseEntity registerMemberShip(@RequestBody RegisterMembershipRequest registerMembershipRequest) {
+    public ResponseEntity<MembershipResult> registerMemberShip(@RequestBody RegisterMembershipRequest registerMembershipRequest) {
         log.info("membership register request: {}", registerMembershipRequest);
-        return ResponseEntity
-                .ok()
-                .body(registerMembershipUseCase.registerMembership(registerMembershipRequest.toCommand()));
+        Membership membership = registerMembershipUseCase.registerMembership(registerMembershipRequest.toCommand());
+        return ResponseEntity.ok().body(MembershipResult.success(membership));
     }
 }

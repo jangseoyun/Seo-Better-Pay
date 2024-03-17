@@ -26,6 +26,6 @@ public class ReadMembershipService implements ReadMembershipUseCase {
 
     @Override
     public Membership getMembershipsByMemberId(ReadMembershipCommand membershipIdCommand) {
-        return readMembershipPort.findByMembershipId(membershipIdCommand.toMembershipId());
+        return readMembershipPort.findByMembershipId(membershipIdCommand.getMembershipId());
     }
 }
