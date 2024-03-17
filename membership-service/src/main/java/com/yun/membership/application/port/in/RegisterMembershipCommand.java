@@ -1,47 +1,68 @@
 package com.yun.membership.application.port.in;
 
-import com.yun.membership.domain.Membership;
 import com.yun.common.SelfValidating;
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import com.yun.membership.domain.Membership;
+import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand> {
     @NotNull
     @NotBlank
-    private final String name;
+    private final String membershipId;
+
     @NotNull
     @NotBlank
-    private final String email;
+    @Pattern(regexp="(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{8,20}",
+            message = "비밀번호는 영문 대,소문자와 숫자, 특수기호가 적어도 1개 이상씩 포함된 8자 ~ 20자의 비밀번호여야 합니다.")
+    private final String membershipPw;
+
+    @Email
+    @NotBlank
+    private final String membershipEmail;
+
+    @NotNull
+    @NotBlank
+    private final String name;
+
     @NotNull
     @NotBlank
     private final String address;
-    @AssertTrue
-    private final boolean isValid; //내부 시스템 admin에서 권한을 변경할 수 있다
-    private final boolean isCorp;
 
-    private RegisterMembershipCommand(String name, String email, String address, boolean isValid, boolean isCorp) {
+    @AssertFalse
+    private final boolean isValid; //내부 시스템 admin에서 권한을 변경할 수 있다
+
+    private RegisterMembershipCommand(String membershipId,
+                                     String membershipPw,
+                                     String membershipEmail,
+                                     String name,
+                                     String address,
+                                     boolean isValid) {
+        this.membershipId = membershipId;
+        this.membershipPw = membershipPw;
+        this.membershipEmail = membershipEmail;
         this.name = name;
-        this.email = email;
         this.address = address;
         this.isValid = isValid;
-        this.isCorp = isCorp;
     }
 
-    public static RegisterMembershipCommand of(String name, String email, String address, boolean isValid, boolean isCorp) {
-        return new RegisterMembershipCommand(name, email, address, isValid, isCorp);
+    public static RegisterMembershipCommand of(String membershipId,
+                                     String membershipPw,
+                                     String membershipEmail,
+                                     String name,
+                                     String address,
+                                     boolean isValid) {
+        return new RegisterMembershipCommand(membershipId, membershipPw, membershipEmail, name, address, isValid);
     }
 
     public Membership toMembership() {
-        return Membership.generateMember(
-                new Membership.MembershipId(null),
+        return Membership.generateInMember(
+                new Membership.MembershipId(membershipId),
+                new Membership.MembershipPw(membershipPw),
                 new Membership.MembershipName(name),
-                new Membership.MembershipEmail(email),
+                new Membership.MembershipEmail(membershipEmail),
                 new Membership.MembershipAddress(address),
-                new Membership.MembershipIsValid(isValid),
-                new Membership.MembershipIsCorp(isCorp)
+                new Membership.MembershipIsValid(isValid)
         );
     }
 

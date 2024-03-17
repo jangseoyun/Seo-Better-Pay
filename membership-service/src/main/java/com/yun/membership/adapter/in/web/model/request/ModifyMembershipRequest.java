@@ -6,16 +6,14 @@ public record ModifyMembershipRequest(
         String membershipId,
         String name,
         String email,
-        String address,
-        boolean isCorp
+        String address
 ) {
     public ModifyMembershipCommand toCommand() {
         return ModifyMembershipCommand.of(
                 membershipId,
                 name,
                 email,
-                address,
-                isCorp
+                address
         );
     }
 }

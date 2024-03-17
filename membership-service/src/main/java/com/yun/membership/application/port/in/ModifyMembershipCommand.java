@@ -1,12 +1,14 @@
 package com.yun.membership.application.port.in;
 
-import com.yun.membership.adapter.in.web.model.request.ModifyMembershipRequest;
-import com.yun.membership.domain.Membership;
 import com.yun.common.SelfValidating;
+import com.yun.membership.adapter.in.web.model.request.ModifyMembershipRequest;
+import com.yun.membership.domain.ModifyMembership;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import static com.yun.membership.domain.ModifyMembership.*;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
@@ -17,28 +19,22 @@ public class ModifyMembershipCommand extends SelfValidating<ModifyMembershipRequ
     private final String name;
     private final String email;
     private final String address;
-    private final boolean isCorp;
 
-    private ModifyMembershipCommand(String membershipId, String name, String email, String address, boolean isCorp) {
+    private ModifyMembershipCommand(String membershipId, String name, String email, String address) {
         this.membershipId = membershipId;
         this.name = name;
         this.email = email;
         this.address = address;
-        this.isCorp = isCorp;
     }
 
-    public static ModifyMembershipCommand of(String membershipId, String name, String email, String address, boolean isCorp) {
-        return new ModifyMembershipCommand(membershipId, name, email, address, isCorp);
+    public static ModifyMembershipCommand of(String membershipId, String name, String email, String address) {
+        return new ModifyMembershipCommand(membershipId, name, email, address);
     }
 
-    public Membership toMembership() {
-        return Membership.generateMember(
-                new Membership.MembershipId(membershipId),
-                new Membership.MembershipName(name),
-                new Membership.MembershipEmail(email),
-                new Membership.MembershipAddress(address),
-                new Membership.MembershipIsValid(true),
-                new Membership.MembershipIsCorp(isCorp)
-        );
+    public ModifyMembership toMembership() {
+        return generateInMember(
+                new MembershipId(membershipId),
+                new MembershipAddress(address),
+                new MembershipEmail(email));
     }
 }

@@ -2,7 +2,10 @@ package com.yun.membership.adapter.out.persistence;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @ToString
@@ -10,25 +13,46 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Table(name = "t_membership")
+@Table(name = "t_membership",
+        indexes = {
+                @Index(columnList = "membershipId"),
+                @Index(columnList = "membershipEmail")
+        })
 public class MembershipEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "membership_id")
-    private Long id;
-    @Column(name = "name")
+    @Column(name = "membership_id", length = 50)
+    private String membershipId;
+    @Column(name = "membership_pw", length = 50, nullable = false)
+    private String membershipPw;
+    @Column(name = "membership_email", length = 100, nullable = false)
+    private String membershipEmail;
+    @Column(name = "name", length = 50, nullable = false)
     private String name;
-    @Column(name = "address")
+    @Column(name = "address", length = 150)
     private String address;
-    @Column(name = "email")
-    private String email;
     @Column(name = "is_valid")
     private boolean isValid;
-    @Column(name = "is_corp")
-    private boolean isCorp;
 
-    public static MembershipEntity of(String name, String address, String email, boolean isValid, boolean isCorp) {
-        return new MembershipEntity(null, name, address, email, isValid, isCorp);
+    @CreatedDate
+    @Column(name = "created_at", updatable = false)
+    private LocalDateTime createdAt;
+    @LastModifiedDate
+    @Column(name = "modified_at")
+    private LocalDateTime modifiedAt;
+    @CreatedDate
+    @Column(name = "deleted_at", updatable = false)
+    private LocalDateTime deletedAt;
+
+    public static MembershipEntity of(String membershipId,
+                            String membershipPw,
+                            String membershipEmail,
+                            String name,
+                            String address,
+                            boolean isValid,
+                            LocalDateTime createdAt,
+                            LocalDateTime modifiedAt,
+                            LocalDateTime deletedAt) {
+        return new MembershipEntity(membershipId, membershipPw, membershipEmail, name, address, isValid, createdAt, modifiedAt, deletedAt);
     }
 
     public void updateMembershipInfo(String name, String address) {
@@ -44,11 +68,11 @@ public class MembershipEntity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof MembershipEntity that)) return false;
-        return Objects.equals(id, that.id);
+        return Objects.equals(membershipId, that.membershipId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id);
+        return Objects.hash(membershipId);
     }
 }
