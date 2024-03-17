@@ -21,7 +21,7 @@ public class WireTransferController {
 
     private final WireTransferUseCase wireTransferUseCase;
 
-    @PostMapping("/")
+    @PostMapping("/create")
     public ResponseEntity wireTransferAmount(@RequestBody WireTransferRequest wireTransferRequest) {
         WireTransfer wireTransfer = wireTransferUseCase.requestWireTransfer(wireTransferRequest.toCommand());
         return ResponseEntity.ok().body(wireTransfer);

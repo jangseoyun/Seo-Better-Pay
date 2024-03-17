@@ -7,7 +7,7 @@ public record WireTransferRequest(
     String toMembershipId,
     String toBankName,
     String toBankAccountNumber,
-    WireTransferType wireTransferType,
+    String wireTransferType,
     int wireTransferAmount
 ) {
     public WireTransferCommand toCommand() {
