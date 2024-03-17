@@ -57,11 +57,11 @@ public class RechargingMoneyResultConsumer {
                         log.info("received message: key = {}, value = {}", record.key(), record.value());
 
                         //record: RechargingMoneyTask all subtask is done
-                        try {
+                        /*try {
                             Thread.sleep(3000);
                         } catch (InterruptedException e) {
                             throw new RuntimeException(e);
-                        }
+                        }*/
 
                         RechargingMoneyTask task;
                         try {

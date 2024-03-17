@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = false)
 public class ReadMembershipCommand extends SelfValidating<ReadMembershipRequest> {
     @NotNull
     @NotBlank
@@ -17,13 +17,10 @@ public class ReadMembershipCommand extends SelfValidating<ReadMembershipRequest>
 
     private ReadMembershipCommand(String membershipId) {
         this.membershipId = membershipId;
+        this.validateSelf();
     }
 
     public static ReadMembershipCommand of(String membershipId) {
         return new ReadMembershipCommand(membershipId);
-    }
-
-    public Membership.MembershipId toMembershipId() {
-        return new Membership.MembershipId(membershipId);
     }
 }
