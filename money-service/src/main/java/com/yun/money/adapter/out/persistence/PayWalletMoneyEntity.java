@@ -1,7 +1,7 @@
 package com.yun.money.adapter.out.persistence;
 
-import com.yun.money.adapter.in.web.model.MoneyChangingResultStatus;
-import com.yun.money.adapter.in.web.model.MoneyChangingType;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,37 +20,54 @@ public class PayWalletMoneyEntity {
     private Long id;
     @Column(name = "money_request_id")
     private String moneyRequestId;
-    @Column(name = "target_membership_id")
-    private String targetMembershipId;
-    @Column(name = "bank_account_number")
-    private String bankAccountNumber;
+    @Column(name = "pay_request_id")
+    private String payRequestId;
+    @Column(name = "membership_id")
+    private String membershipId;
+    @Column(name = "membership_name")
+    private String membershipName;
+    @Column(name = "linked_bank_code")
+    private String linkedBankCode;
+    @Column(name = "linked_bank_account_number")
+    private String linkedBankAccountNumber;
     @Column(name = "adjust_amount")
     private Integer adjustAmount;
     @Column(name = "linked_status_valid")
     private boolean linkedStatusIsValid;
     @Enumerated(EnumType.STRING)
     @Column(name = "money_change_type")
-    private MoneyChangingType moneyChangType;
+    private MoneyAdjustingType moneyChangType;
     @Enumerated(EnumType.STRING)
     @Column(name = "money_changed_result_status")
-    private MoneyChangingResultStatus moneyChangingResultStatus;
+    private MoneyAdjustingResultStatus moneyChangingResultStatus;
 
     @Builder
-    public PayWalletMoneyEntity(String moneyRequestId,
-                                String targetMembershipId,
-                                String bankAccountNumber,
+    public PayWalletMoneyEntity(Long id,
+                                String moneyRequestId,
+                                String payRequestId,
+                                String membershipId,
+                                String membershipName,
+                                String linkedBankCode,
+                                String linkedBankAccountNumber,
                                 Integer adjustAmount,
                                 boolean linkedStatusIsValid,
-                                MoneyChangingType moneyChangType,
-                                MoneyChangingResultStatus moneyChangingResultStatus) {
+                                MoneyAdjustingType moneyChangType,
+                                MoneyAdjustingResultStatus moneyChangingResultStatus) {
+        this.id = id;
         this.moneyRequestId = moneyRequestId;
-        this.targetMembershipId = targetMembershipId;
-        this.bankAccountNumber = bankAccountNumber;
+        this.payRequestId = payRequestId;
+        this.membershipId = membershipId;
+        this.membershipName = membershipName;
+        this.linkedBankCode = linkedBankCode;
+        this.linkedBankAccountNumber = linkedBankAccountNumber;
         this.adjustAmount = adjustAmount;
         this.linkedStatusIsValid = linkedStatusIsValid;
         this.moneyChangType = moneyChangType;
         this.moneyChangingResultStatus = moneyChangingResultStatus;
     }
+
+    @Builder
+
 
     @Override
     public boolean equals(Object o) {
