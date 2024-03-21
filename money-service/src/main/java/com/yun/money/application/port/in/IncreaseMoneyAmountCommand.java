@@ -2,13 +2,16 @@ package com.yun.money.application.port.in;
 
 import com.yun.common.SelfValidating;
 import com.yun.money.adapter.in.web.model.IncreaseMoneyAmountRequest;
-import com.yun.money.adapter.in.web.model.MoneyChangingResultStatus;
-import com.yun.money.adapter.in.web.model.MoneyChangingType;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingType;
 import com.yun.money.domain.PayWalletMoney;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+
+import java.util.UUID;
 
 import static com.yun.money.domain.PayWalletMoney.*;
 
@@ -18,51 +21,51 @@ public class IncreaseMoneyAmountCommand extends SelfValidating<IncreaseMoneyAmou
 
     @NotNull
     @NotEmpty
-    private final String moneyChangingRequestId;
+    private final String moneyIncreaseRequestId;
     @NotNull
     @NotEmpty
-    private final String targetMembershipId;
+    private final String membershipId;
     @NotNull
     @NotEmpty
-    private final String bankAccountNumber;
+    private final String memberName;
     @NotNull
     @NotEmpty
-    private final Integer requestAdjustAmount;
-    private final MoneyChangingType changingType;
+    private final String linkedBankCode;
+    @NotNull
+    @NotEmpty
+    private final String linkedBankAccountNumber;
+    @NotNull
+    private final Integer increaseAmount;
+    private final MoneyAdjustingType moneyAdjustingType;
 
-
-    private IncreaseMoneyAmountCommand(String moneyChangingRequestId,
-                                       String targetMembershipId,
-                                       MoneyChangingType moneyChangingType,
-                                       Integer requestAdjustAmount,
-                                       String bankAccountNumber) {
-        this.moneyChangingRequestId = moneyChangingRequestId;
-        this.targetMembershipId = targetMembershipId;
-        this.requestAdjustAmount = requestAdjustAmount;
-        this.changingType = moneyChangingType;
-        this.bankAccountNumber = bankAccountNumber;
+    @Builder
+    public IncreaseMoneyAmountCommand(String moneyIncreaseRequestId,
+                                      String membershipId,
+                                      String memberName,
+                                      String linkedBankCode,
+                                      String linkedBankAccountNumber,
+                                      Integer increaseAmount,
+                                      MoneyAdjustingType moneyAdjustingType) {
+        this.moneyIncreaseRequestId = moneyIncreaseRequestId;
+        this.membershipId = membershipId;
+        this.memberName = memberName;
+        this.linkedBankCode = linkedBankCode;
+        this.linkedBankAccountNumber = linkedBankAccountNumber;
+        this.increaseAmount = increaseAmount;
+        this.moneyAdjustingType = moneyAdjustingType;
     }
 
-    public static IncreaseMoneyAmountCommand of(String moneyChangingRequestId,
-                                                String targetMembershipId,
-                                                Integer requestAdjustAmount,
-                                                String bankAccountNumber) {
-        return new IncreaseMoneyAmountCommand(moneyChangingRequestId,
-                targetMembershipId,
-                MoneyChangingType.INCREASING,
-                requestAdjustAmount,
-                bankAccountNumber);
-    }
-
-    public PayWalletMoney toPayWalletMoney(MoneyChangingResultStatus moneyChangingResultStatus) {
-        return generatedPayWalletChangeMoney(
-                new MoneyChangingRequestId(moneyChangingRequestId),
-                new TargetMembershipId(targetMembershipId),
-                new ChangingTypes(changingType),
-                new BankAccountNumber(bankAccountNumber),
-                new RequestAdjustAmount(requestAdjustAmount),
-                new ChangedMoneyStatus(moneyChangingResultStatus),
-                new LinkedStatusIsValid(true)
+    public PayWalletMoney toPayWalletMoney(MoneyAdjustingResultStatus moneyAdjustingResultStatus) {
+        return generatedPayWalletIncreaseMoney(
+                new MoneyAdjustRequestId(UUID.randomUUID().toString()),
+                new MembershipId(membershipId),
+                new MemberName(memberName),
+                new LinkedBankCode(linkedBankCode),
+                MoneyAdjustingType.INCREASING,
+                new LinkedBankAccountNumber(linkedBankAccountNumber),
+                new LinkedStatusIsValid(true),
+                new AdjustAmount(increaseAmount),
+                moneyAdjustingResultStatus
         );
     }
 }

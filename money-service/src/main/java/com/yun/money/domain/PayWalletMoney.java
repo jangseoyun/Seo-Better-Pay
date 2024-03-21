@@ -1,85 +1,127 @@
 package com.yun.money.domain;
 
-import com.yun.money.adapter.in.web.model.MoneyChangingResultStatus;
-import com.yun.money.adapter.in.web.model.MoneyChangingType;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingType;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Value;
 
-import java.util.UUID;
-
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PayWalletMoney {
 
-    private final String moneyChangingRequestId;
-    // 어떤 고객의 증액/감액 요청을 요청했는지의 멤버 정보
-    private final String targetMembershipId;
-    // 요청에 대한 타입(증액/감액)
-    private final MoneyChangingType moneyChangingType;
-    // 증액 또는 감액에 대한 계좌
-    private final String bankAccountNumber;
-    // 머니 변액 요청에 대한 상태
+    private final String moneyIncreaseRequestId;
+    private final String membershipId;
+    private final String memberName;
+    private final MoneyAdjustingType moneyAdjustingType;
     private final boolean linkedStatusIsValid;
     private final Integer adjustAmount;
-    private final MoneyChangingResultStatus moneyChangingResultStatus;
-    private final ChangeRequestId changeRequestId;
+    private final MoneyAdjustingResultStatus moneyChangingResultStatus;
+    private String linkedBankCode;
+    private String linkedBankAccountNumber;
 
-    public static PayWalletMoney generatedPayWalletChangeMoney(
-            MoneyChangingRequestId moneyChangingRequestId,
-            TargetMembershipId targetMembershipId,
-            ChangingTypes moneyChangingType,
-            BankAccountNumber bankAccountNumber,
-            RequestAdjustAmount requestAdjustAmount,
-            ChangedMoneyStatus moneyChangingResultStatus,
-            LinkedStatusIsValid linkedStatusIsValid
+    private PayWalletMoney(String moneyIncreaseRequestId,
+                           String membershipId,
+                           String memberName,
+                           MoneyAdjustingType moneyAdjustingType,
+                           boolean linkedStatusIsValid,
+                           Integer adjustAmount,
+                           MoneyAdjustingResultStatus moneyChangingResultStatus) {
+        this.moneyIncreaseRequestId = moneyIncreaseRequestId;
+        this.membershipId = membershipId;
+        this.memberName = memberName;
+        this.moneyAdjustingType = moneyAdjustingType;
+        this.linkedStatusIsValid = linkedStatusIsValid;
+        this.adjustAmount = adjustAmount;
+        this.moneyChangingResultStatus = moneyChangingResultStatus;
+    }
+    public static PayWalletMoney generatedPayWalletIncreaseMoney(
+            MoneyAdjustRequestId moneyIncreaseRequestId,
+            MembershipId membershipId,
+            MemberName memberName,
+            LinkedBankCode linkedBankCode,
+            MoneyAdjustingType moneyAdjustingType,
+            LinkedBankAccountNumber linkedBankAccountNumber,
+            LinkedStatusIsValid linkedStatusIsValid,
+            AdjustAmount increaseAmount,
+            MoneyAdjustingResultStatus moneyAdjustingResultStatus
     ) {
         return new PayWalletMoney(
-                moneyChangingRequestId.moneyChangingRequestId,
-                targetMembershipId.targetMembershipId,
-                moneyChangingType.changingType,
-                bankAccountNumber.bankAccountNumber,
+                moneyIncreaseRequestId.moneyAdjustRequestId,
+                membershipId.membershipId,
+                memberName.memberName,
+                moneyAdjustingType,
                 linkedStatusIsValid.linkedStatusIsValid,
-                requestAdjustAmount.requestAdjustAmount,
-                moneyChangingResultStatus.changingMoneyStatus,
-                new ChangeRequestId()
+                increaseAmount.adjustAmount,
+                moneyAdjustingResultStatus,
+                linkedBankCode.linkedBankCode,
+                linkedBankAccountNumber.linkedBankAccountNumber
+        );
+    }
+
+    public static PayWalletMoney generatedPayWalletDecreaseMoney(
+            MoneyAdjustRequestId moneyDecreaseRequestId,
+            MembershipId membershipId,
+            MemberName memberName,
+            MoneyAdjustingType moneyAdjustingType,
+            LinkedStatusIsValid linkedStatusIsValid,
+            AdjustAmount decreaseAmount,
+            MoneyAdjustingResultStatus moneyAdjustingResultStatus
+            ) {
+        return new PayWalletMoney(
+                moneyDecreaseRequestId.moneyAdjustRequestId,
+                membershipId.membershipId,
+                memberName.memberName,
+                moneyAdjustingType,
+                linkedStatusIsValid.linkedStatusIsValid,
+                decreaseAmount.adjustAmount,
+                moneyAdjustingResultStatus
         );
     }
 
     @Value
-    public static class MoneyChangingRequestId {
-        String moneyChangingRequestId;
+    public static class MoneyAdjustRequestId {
+        String moneyAdjustRequestId;
 
-        public MoneyChangingRequestId(String value) {
-            this.moneyChangingRequestId = value;
+        public MoneyAdjustRequestId(String value) {
+            this.moneyAdjustRequestId = value;
         }
     }
 
     @Value
-    public static class TargetMembershipId {
-        String targetMembershipId;
+    public static class MembershipId {
+        String membershipId;
 
-        public TargetMembershipId(String value) {
-            this.targetMembershipId = value;
+        public MembershipId(String value) {
+            this.membershipId = value;
         }
     }
 
     @Value
-    public static class ChangingTypes {
-        MoneyChangingType changingType;
+    public static class MemberName {
+        String memberName;
 
-        public ChangingTypes(MoneyChangingType value) {
-            this.changingType = value;
+        public MemberName(String value) {
+            this.memberName = value;
         }
     }
 
     @Value
-    public static class BankAccountNumber {
-        String bankAccountNumber;
+    public static class LinkedBankCode {
+        String linkedBankCode;
 
-        public BankAccountNumber(String value) {
-            this.bankAccountNumber = value;
+        public LinkedBankCode(String value) {
+            this.linkedBankCode = value;
+        }
+    }
+
+    @Value
+    public static class LinkedBankAccountNumber {
+        String linkedBankAccountNumber;
+
+        public LinkedBankAccountNumber(String value) {
+            this.linkedBankAccountNumber = value;
         }
     }
 
@@ -93,28 +135,19 @@ public class PayWalletMoney {
     }
 
     @Value
-    public static class RequestAdjustAmount {
-        Integer requestAdjustAmount;
+    public static class AdjustAmount {
+        Integer adjustAmount;
 
-        public RequestAdjustAmount(Integer value) {
-            this.requestAdjustAmount = value;
+        public AdjustAmount(Integer value) {
+            this.adjustAmount = value;
         }
     }
 
     @Value
-    public static class ChangeRequestId {
-        UUID requestId;
+    public static class AdjustMoneyStatus {
+        MoneyAdjustingResultStatus changingMoneyStatus;
 
-        public ChangeRequestId() {
-            this.requestId = UUID.randomUUID();
-        }
-    }
-
-    @Value
-    public static class ChangedMoneyStatus {
-        MoneyChangingResultStatus changingMoneyStatus;
-
-        public ChangedMoneyStatus(MoneyChangingResultStatus value) {
+        public AdjustMoneyStatus(MoneyAdjustingResultStatus value) {
             this.changingMoneyStatus = value;
         }
     }
