@@ -1,7 +1,7 @@
 package com.yun.money.application.service;
 
 import com.yun.common.*;
-import com.yun.money.adapter.in.web.model.MoneyChangingResultStatus;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.application.port.in.IncreaseMoneyAmountCommand;
 import com.yun.money.application.port.in.IncreaseMoneyUseCase;
 import com.yun.money.application.port.out.GetMembershipForMoneyPort;
@@ -31,11 +31,11 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
     public PayWalletMoney addMoneyToSeobetterpay(IncreaseMoneyAmountCommand command) {
         //증액(충전)
         //1. TODO: 멤버십 회원 검증
-        getMembershipForMoneyPort.getMembership(command.getTargetMembershipId());
+        getMembershipForMoneyPort.getMembership(command.getMembershipId());
         //1-1 고객의 연동된 계좌가 있는지 + 정상여부 체크
         //1-2 페이 법인 계좌 상태 정상 여부 체크 및 입출금 가능 여부 체크
         //2. TODO: money 요청 히스토리 저장 (계산하는 검증 로직 필요) (요청 상태로 저장) 증액을 위한 기록 MoneyChargingRequest 생성
-        return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyChangingResultStatus.SUCCEEDED));
+        return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
         //3. TODO: 펌뱅킹 (고객의 연동된 계좌 -> 법인 계좌)
         //4. 정상/실패 예외 및 정상 처리
         //결과가 정상적이라면 성곡으로 moneyChargingRequest 상태값을 변동 후에 리턴
@@ -49,7 +49,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         //각 서비스에 특정 membershipId로 validation을 하기 위한 task
         //1. subtask, task
         SubTask validMemberTask = new SubTask(
-                command.getTargetMembershipId(),
+                command.getMembershipId(),
                 "validMemberTask: 멤버십 유효성 검사",
                 MoneyTaskType.MEMBERSHIP,
                 "ready"
@@ -57,7 +57,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         //banking sub task
         //banking account validation
         SubTask validBankingAccountTask = new SubTask(
-                command.getTargetMembershipId(),
+                command.getMembershipId(),
                 "validMemberTask: 멤버십 유효성 검사",
                 MoneyTaskType.BANKING,
                 "ready"
@@ -70,10 +70,10 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         RechargingMoneyTask rechargingMoneyTask = RechargingMoneyTask.builder()
                 .taskId(UUID.randomUUID().toString())
                 .taskName("Increase money task / 머니 충전 task")
-                .membershipId(command.getTargetMembershipId())
+                .membershipId(command.getMembershipId())
                 .subTaskList(subTaskList)
                 .toBankName("seoBetterPay")
-                .toBankAccountNumber(command.getBankAccountNumber())
+                .toBankAccountNumber(command.getLinkedBankAccountNumber())
                 .moneyAmount(command.getRequestAdjustAmount())
                 .build();
 
@@ -108,7 +108,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         String result = countDownLatchManager.getDataForKey(rechargingMoneyTask.getTaskId());
         if (result.equals("success")) {
             //4-1. consume ok, logic
-            return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyChangingResultStatus.SUCCEEDED));
+            return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
         } else {
             //4-2. consume fail, logic
             return null;

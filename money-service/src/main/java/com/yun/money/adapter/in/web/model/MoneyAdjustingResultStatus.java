@@ -1,6 +1,6 @@
 package com.yun.money.adapter.in.web.model;
 
-public enum MoneyChangingResultStatus {
+public enum MoneyAdjustingResultStatus {
     SUCCEEDED,
     PENDING,
     FAILED,

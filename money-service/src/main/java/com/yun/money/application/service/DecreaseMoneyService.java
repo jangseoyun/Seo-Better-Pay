@@ -1,7 +1,7 @@
 package com.yun.money.application.service;
 
 import com.yun.common.UseCase;
-import com.yun.money.adapter.in.web.model.MoneyChangingResultStatus;
+import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.application.port.in.DecreaseMoneyAmountCommand;
 import com.yun.money.application.port.in.DecreaseMoneyUseCase;
 import com.yun.money.application.port.out.DecreaseMoneyAmountPort;
@@ -26,10 +26,10 @@ public class DecreaseMoneyService implements DecreaseMoneyUseCase {
         //1. TODO: 멤버십 회원 검증
         //2. money 금액 확인 (기존 금액 > 요청 금액)
         //2-1. 기존 금액 합산 쿼리(합산액은 0이하가 될 수 없다)
-        Integer moneyTotalAmount = decreaseMoneyAmountPort.moneyTotalAmount(command.getBankAccountNumber());
+        Integer moneyTotalAmount = decreaseMoneyAmountPort.moneyTotalAmount(command.getMembershipId());
         //2-2. 계산
-        MoneyChangingResultStatus moneyChangingApprovalStatus
-                = moneyAmountCalculator.checkAmountApproval(moneyTotalAmount, command.getRequestAdjustAmount());
+        MoneyAdjustingResultStatus moneyChangingApprovalStatus
+                = moneyAmountCalculator.checkAmountApproval(moneyTotalAmount, command.getDecreaseAmount());
         log.info("moneyTotalAmount:{}", moneyTotalAmount);
         //3. money 요청 히스토리 저장
         return decreaseMoneyAmountPort.decreaseMoneyAmount(command.toPayWalletMoney(moneyChangingApprovalStatus));

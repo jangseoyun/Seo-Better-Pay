@@ -8,14 +8,16 @@ import static com.yun.money.domain.PayWalletMoney.*;
 @Component
 public class PayWalletMoneyMapper {
     public PayWalletMoney mapToDomainWalletMoney(PayWalletMoneyEntity entity) {
-        return generatedPayWalletChangeMoney(
-                new MoneyChangingRequestId(entity.getMoneyRequestId()),
-                new TargetMembershipId(entity.getTargetMembershipId()),
-                new ChangingTypes(entity.getMoneyChangType()),
-                new BankAccountNumber(entity.getBankAccountNumber()),
-                new RequestAdjustAmount(entity.getAdjustAmount()),
-                new ChangedMoneyStatus(entity.getMoneyChangingResultStatus()),
-                new LinkedStatusIsValid(entity.isLinkedStatusIsValid())
+        return generatedPayWalletIncreaseMoney(
+                new MoneyAdjustRequestId(entity.getMoneyRequestId()),
+                new MembershipId(entity.getMembershipId()),
+                new MemberName(entity.getMembershipName()),
+                new LinkedBankCode(entity.getLinkedBankCode()),
+                entity.getMoneyChangType(),
+                new LinkedBankAccountNumber(entity.getLinkedBankAccountNumber()),
+                new LinkedStatusIsValid(entity.isLinkedStatusIsValid()),
+                new AdjustAmount(entity.getAdjustAmount()),
+                entity.getMoneyChangingResultStatus()
         );
     }
 }

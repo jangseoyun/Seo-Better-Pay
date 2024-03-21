@@ -11,6 +11,8 @@ import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+import java.util.UUID;
+
 import static com.yun.money.domain.PayWalletMoney.*;
 
 @Getter
@@ -54,14 +56,16 @@ public class IncreaseMoneyAmountCommand extends SelfValidating<IncreaseMoneyAmou
     }
 
     public PayWalletMoney toPayWalletMoney(MoneyAdjustingResultStatus moneyAdjustingResultStatus) {
-        return generatedPayWalletChangeMoney(
-                new MoneyChangingRequestId(moneyIncreaseRequestId),
-                new TargetMembershipId(membershipId),
-                new ChangingTypes(changingType),
-                new BankAccountNumber(linkedBankAccountNumber),
-                new RequestAdjustAmount(requestAdjustAmount),
-                new ChangedMoneyStatus(moneyAdjustingResultStatus),
-                new LinkedStatusIsValid(true)
+        return generatedPayWalletIncreaseMoney(
+                new MoneyAdjustRequestId(UUID.randomUUID().toString()),
+                new MembershipId(membershipId),
+                new MemberName(memberName),
+                new LinkedBankCode(linkedBankCode),
+                MoneyAdjustingType.INCREASING,
+                new LinkedBankAccountNumber(linkedBankAccountNumber),
+                new LinkedStatusIsValid(true),
+                new AdjustAmount(increaseAmount),
+                moneyAdjustingResultStatus
         );
     }
 }

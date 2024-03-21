@@ -20,8 +20,6 @@ public class PayWalletMoneyEntity {
     private Long id;
     @Column(name = "money_request_id")
     private String moneyRequestId;
-    @Column(name = "pay_request_id")
-    private String payRequestId;
     @Column(name = "membership_id")
     private String membershipId;
     @Column(name = "membership_name")
@@ -44,7 +42,6 @@ public class PayWalletMoneyEntity {
     @Builder
     public PayWalletMoneyEntity(Long id,
                                 String moneyRequestId,
-                                String payRequestId,
                                 String membershipId,
                                 String membershipName,
                                 String linkedBankCode,
@@ -55,7 +52,6 @@ public class PayWalletMoneyEntity {
                                 MoneyAdjustingResultStatus moneyChangingResultStatus) {
         this.id = id;
         this.moneyRequestId = moneyRequestId;
-        this.payRequestId = payRequestId;
         this.membershipId = membershipId;
         this.membershipName = membershipName;
         this.linkedBankCode = linkedBankCode;
@@ -65,9 +61,6 @@ public class PayWalletMoneyEntity {
         this.moneyChangType = moneyChangType;
         this.moneyChangingResultStatus = moneyChangingResultStatus;
     }
-
-    @Builder
-
 
     @Override
     public boolean equals(Object o) {

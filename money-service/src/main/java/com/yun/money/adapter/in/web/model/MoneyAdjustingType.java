@@ -1,6 +1,6 @@
 package com.yun.money.adapter.in.web.model;
 
-public enum MoneyAdjustType {
+public enum MoneyAdjustingType {
     INCREASING,
     DECREASING
 }

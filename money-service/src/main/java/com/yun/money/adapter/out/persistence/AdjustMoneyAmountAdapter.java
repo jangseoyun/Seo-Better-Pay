@@ -21,9 +21,9 @@ public class AdjustMoneyAmountAdapter implements IncreaseMoneyAmountPort, Decrea
     }
 
     @Override
-    public Integer moneyTotalAmount(String bankAccountNumber) {
+    public Integer moneyTotalAmount(String membershipId) {
         return payWalletMoneyJpaRepository
-                .moneyTotalAmount(bankAccountNumber);
+                .moneyTotalAmount(membershipId);
     }
 
     @Override
