@@ -1,4 +1,4 @@
-package com.yun.money.adapter.out.service;
+package com.yun.money.adapter.out.service.membership;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,13 +1,7 @@
-package com.yun.money.adapter.out.service;
+package com.yun.money.adapter.out.service.membership;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class MembershipServiceStatus {
-    private String membershipId;
-    private boolean isValid;
+public record MembershipServiceStatus(
+        String membershipId,
+        boolean isValid
+) {
 }
