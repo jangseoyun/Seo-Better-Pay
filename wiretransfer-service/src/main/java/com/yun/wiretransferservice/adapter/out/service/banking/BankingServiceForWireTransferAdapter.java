@@ -13,14 +13,24 @@ public class BankingServiceForWireTransferAdapter implements BankingForWireTrans
 
     private final CommonHttpClient bankingHttpClient;
     @Value("${service.banking.url}")
-    private String bankingServiceEndPoint;
+    private String bankingServiceUrl;
+
     @Override
     public BankingInfo getMembershipBankingInfo(String bankName, String bankAccountNumber) {
+        String url = String.join("/", bankingServiceUrl, "/bank/account", "");
+
+        try {
+            bankingHttpClient.sendGetRequest(url);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
         return null;
     }
 
     @Override
     public boolean requestFirmBanking(String bankName, String bankAccountNumber, int amount) {
+        //외부 계좌 상태 정상 유무
         return false;
     }
 }
