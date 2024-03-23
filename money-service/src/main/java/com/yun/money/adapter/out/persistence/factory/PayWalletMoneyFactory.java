@@ -13,7 +13,7 @@ public class PayWalletMoneyFactory {
                 .membershipName(payWalletMoney.getMemberName())
                 .linkedBankCode(payWalletMoney.getLinkedBankCode())
                 .linkedBankAccountNumber(payWalletMoney.getLinkedBankAccountNumber())
-                .adjustAmount(payWalletMoney.getIncreaseAmount())
+                .adjustAmount(payWalletMoney.getAdjustAmount())
                 .linkedStatusIsValid(payWalletMoney.isLinkedStatusIsValid())
                 .moneyChangType(MoneyAdjustingType.INCREASING)
                 .moneyChangingResultStatus(MoneyAdjustingResultStatus.SUCCEEDED)

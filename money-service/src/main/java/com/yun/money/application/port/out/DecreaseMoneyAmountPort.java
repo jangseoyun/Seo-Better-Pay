@@ -4,5 +4,4 @@ import com.yun.money.domain.PayWalletMoney;
 
 public interface DecreaseMoneyAmountPort {
     PayWalletMoney decreaseMoneyAmount(PayWalletMoney payWalletMoney);
-    Integer moneyTotalAmount(String bankAccountNumber);
 }

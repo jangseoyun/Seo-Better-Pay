@@ -33,6 +33,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         //1. TODO: 멤버십 회원 검증
         getMembershipForMoneyPort.getMembership(command.getMembershipId());
         //1-1 고객의 연동된 계좌가 있는지 + 정상여부 체크
+
         //1-2 페이 법인 계좌 상태 정상 여부 체크 및 입출금 가능 여부 체크
         //2. TODO: money 요청 히스토리 저장 (계산하는 검증 로직 필요) (요청 상태로 저장) 증액을 위한 기록 MoneyChargingRequest 생성
         return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
@@ -74,7 +75,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
                 .subTaskList(subTaskList)
                 .toBankName("seoBetterPay")
                 .toBankAccountNumber(command.getLinkedBankAccountNumber())
-                .moneyAmount(command.getRequestAdjustAmount())
+                .moneyAmount(command.getIncreaseAmount())
                 .build();
 
         log.info("RechargingMoneyTask: {}", rechargingMoneyTask);
