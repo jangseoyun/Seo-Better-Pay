@@ -1,5 +1,18 @@
 version: '3'
 services:
+  axon-server:
+    container_name: axon-server
+    image: axoniq/axonserver:4.6.3-jdk-11-dev
+    networks:
+      - seobetter_network
+    ports:
+      - "8024:8024"
+      - "8124:8124"
+    volumes:
+      - axonserver-data:/axonserver/data
+      - axonserver-events:/axonserver/events
+      - axonserver-config:/axonserver/config:ro
+
   zookeeper:
     image: 'arm64v8/zookeeper:3.8'
     networks:
@@ -106,6 +119,10 @@ services:
     depends_on:
       - mysql
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/seo-better-pay?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
@@ -116,6 +133,7 @@ services:
       - TASK_TOPIC=seobetterpay.task.topic
       - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_BANKING_URL=http://banking-service:8080
 
   wiretransfer-service:
     image: seo-better-pay-wiretransfer-service:0.0.1-SNAPSHOT
@@ -165,6 +183,26 @@ services:
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
       - TASK_TOPIC=seobetterpay.task.topic
       - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
+
+volumes:
+  axonserver-data:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/data
+  axonserver-events:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/events
+  axonserver-config:
+    driver: local
+    driver_opts:
+      o: bind
+      type: none
+      device: ${PWD}/axon-server-se/config
 
 networks:
   seobetter_network:
