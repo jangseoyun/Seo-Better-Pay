@@ -27,6 +27,7 @@ public class MembershipMapper {
                         membership.getName(),
                         membership.getAddress(),
                         true,
+                        true,
                         membership.getCreatedAt(),
                         membership.getModifiedAt(),
                         null

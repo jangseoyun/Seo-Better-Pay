@@ -32,6 +32,8 @@ public class MembershipEntity {
     private String address;
     @Column(name = "is_valid")
     private boolean isValid;
+    @Column(name = "is_wallet_available")
+    private boolean isMoneyWalletAvailable;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -49,10 +51,11 @@ public class MembershipEntity {
                             String name,
                             String address,
                             boolean isValid,
+                            boolean isMoneyWalletAvailable,
                             LocalDateTime createdAt,
                             LocalDateTime modifiedAt,
                             LocalDateTime deletedAt) {
-        return new MembershipEntity(membershipId, membershipPw, membershipEmail, name, address, isValid, createdAt, modifiedAt, deletedAt);
+        return new MembershipEntity(membershipId, membershipPw, membershipEmail, name, address, isValid, isMoneyWalletAvailable, createdAt, modifiedAt, deletedAt);
     }
 
     public void updateMembershipInfo(String membershipId, String address) {
