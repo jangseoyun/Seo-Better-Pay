@@ -199,3 +199,4 @@ application-local.yml
 src/main/resources/env
 bankaccount-local.env
 .env
+env/

@@ -1,19 +1,19 @@
 package com.yun.money.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
 @Getter
+@ToString
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class MemberMoneyWallet {
     private final String membershipId;
     private final int moneyTotalAmount;
+    private final String moneyAggregateIdentifier;
 
     public static MemberMoneyWallet generateMemberMoneyWallet(MembershipId membershipId,
-                                                              MoneyTotalAmount moneyTotalAmount) {
-        return new MemberMoneyWallet(membershipId.membershipId, moneyTotalAmount.moneyTotalAmount);
+                                                              MoneyTotalAmount moneyTotalAmount,
+                                                              MoneyAggregateIdentifier aggregateIdentifier) {
+        return new MemberMoneyWallet(membershipId.membershipId, moneyTotalAmount.moneyTotalAmount, aggregateIdentifier.moneyAggregateIdentifier);
     }
 
     @Value
@@ -31,6 +31,15 @@ public class MemberMoneyWallet {
 
         public MoneyTotalAmount(int value) {
             this.moneyTotalAmount = value;
+        }
+    }
+
+    @Value
+    public static class MoneyAggregateIdentifier {
+        String moneyAggregateIdentifier;
+
+        public MoneyAggregateIdentifier(String value) {
+            this.moneyAggregateIdentifier = value;
         }
     }
 }

@@ -6,7 +6,7 @@ plugins {
 }
 
 ext{
-    axonVersion = "4.7.0"
+    axonVersion = "4.9.1"
 }
 
 compileJava {
@@ -55,6 +55,7 @@ dependencies {
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
+    testImplementation 'org.axonframework:axon-test' // Axon 프레임워크 테스트 의존성
     runtimeOnly 'com.mysql:mysql-connector-j'
 }
 

@@ -1,7 +1,10 @@
 package com.yun.money.adapter.axon.aggregate;
 
-import com.yun.money.adapter.axon.command.MemberMoneyAddCommand;
-import com.yun.money.adapter.axon.event.MemberMoneyAddEvent;
+import com.yun.money.adapter.axon.command.IncreaseMemberMoneyCommand;
+import com.yun.money.adapter.axon.command.MemberMoneyCreateCommand;
+import com.yun.money.adapter.axon.event.IncreaseMemberMoneyEvent;
+import com.yun.money.adapter.axon.event.MemberMoneyCreateEvent;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
@@ -23,19 +26,37 @@ public class MemberMoneyAggregate {
     private int balance;
 
     @CommandHandler
-    public MemberMoneyAggregate(MemberMoneyAddCommand command) {
+    public MemberMoneyAggregate(MemberMoneyCreateCommand command) {
         log.info("MemberMoneyAddCommand Handler");
-        apply(new MemberMoneyAddEvent(command.getMembershipId()));
+        apply(new MemberMoneyCreateEvent(id, command.getMembershipId()));
+    }
+
+    @CommandHandler
+    public String handle(@NotNull IncreaseMemberMoneyCommand command) {
+        log.info("IncreaseMemberMoneyCommand handler");
+        id = command.getAggregateIdentifier();
+
+        //store event
+        apply(new IncreaseMemberMoneyEvent(id, command.getMembershipId(), command.getIncreaseAmount()));
+        return id;
     }
 
     @EventSourcingHandler
-    public void on(MemberMoneyAddEvent event) {
+    public void on(MemberMoneyCreateEvent event) {
         log.info("MemberMoneyAddEvent Sourcing Handler");
         id = UUID.randomUUID().toString();
         membershipId = event.getMembershipId();
         balance = 0;
     }
 
-    public MemberMoneyAggregate() {
+    @EventSourcingHandler
+    public void on(IncreaseMemberMoneyEvent event) {
+        log.info("IncreaseMemberMoneyEvent Sourcing Handler");
+        id = UUID.randomUUID().toString();
+        membershipId = event.getMembershipId();
+        balance = event.getIncreaseAmount();
+    }
+
+    protected MemberMoneyAggregate() {
     }
 }

@@ -3,6 +3,7 @@ package com.yun.money.adapter.in.web;
 import com.yun.common.WebAdapter;
 import com.yun.money.adapter.in.web.model.MembershipIdRequest;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
+import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,19 +29,19 @@ public class ReadMoneyAmountController{
 
     private final ReadMoneyAmountUseCase readMoneyAmountUseCase;
 
-    @GetMapping("/{membershipId}")
+    @GetMapping("/{membershipId}/amount")
     public ResponseEntity getMoneyTotalAmount(@PathVariable("membershipId") MembershipIdRequest membershipId) {
         Integer moneyTotalAmount = readMoneyAmountUseCase.getMoneyTotalAmount(membershipId.toCommand());
         return ResponseEntity.ok().body(moneyTotalAmount);
     }
 
-    @GetMapping("/{membershipId}")
+    @GetMapping("/{membershipId}/add-history")
     public ResponseEntity getAddMoneyHistory(@PathVariable("membershipId") MembershipIdRequest membershipId) {
         List<PayWalletMoney> addMoneyHistory = readMoneyAmountUseCase.getAddMoneyHistory(membershipId.toCommand());
         return ResponseEntity.ok().body(addMoneyHistory);
     }
 
-    @GetMapping("/{membershipId}")
+    @GetMapping("/{membershipId}/pay-history")
     public ResponseEntity getPayMoneyHistory(@PathVariable("membershipId") MembershipIdRequest membershipId) {
         List<PayWalletMoney> payMoneyHistory = readMoneyAmountUseCase.getPayMoneyHistory(membershipId.toCommand());
         return ResponseEntity.ok().body(payMoneyHistory);

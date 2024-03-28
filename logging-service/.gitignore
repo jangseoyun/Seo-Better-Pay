@@ -198,5 +198,7 @@ membership-service/out
 application-local.yml
 logging-local.yml
 
-#env
+### env ###
 src/main/resources/env
+.env
+env/
