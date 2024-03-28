@@ -5,10 +5,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class MemberMoneyWalletMapper {
-    public MemberMoneyWallet mapToMemberMoneyWallet(Integer moneyTotalBalance, String membershipId) {
+    public MemberMoneyWallet mapToMemberMoneyWallet(MemberMoneyWalletEntity entity) {
         return MemberMoneyWallet.generateMemberMoneyWallet(
-                new MemberMoneyWallet.MembershipId(membershipId),
-                new MemberMoneyWallet.MoneyTotalAmount(moneyTotalBalance)
+                new MemberMoneyWallet.MembershipId(entity.getMembershipId()),
+                new MemberMoneyWallet.MoneyTotalAmount(entity.getMoneyTotalAmount()),
+                new MemberMoneyWallet.MoneyAggregateIdentifier(entity.getMoneyAggregateIdentifier())
         );
     }
+
 }

@@ -1,15 +1,18 @@
 package com.yun.money.application.service;
 
 import com.yun.common.*;
+import com.yun.money.adapter.axon.command.IncreaseMemberMoneyCommand;
 import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.application.port.in.IncreaseMoneyAmountCommand;
 import com.yun.money.application.port.in.IncreaseMoneyUseCase;
 import com.yun.money.application.port.out.GetMembershipForMoneyPort;
 import com.yun.money.application.port.out.IncreaseMoneyAmountPort;
 import com.yun.money.application.port.out.SendRechargingMoneyTaskPort;
+import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
@@ -26,6 +29,7 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
     private final CountDownLatchManager countDownLatchManager;
     private final GetMembershipForMoneyPort getMembershipForMoneyPort;
     private final SendRechargingMoneyTaskPort sendRechargingMoneyTaskPort;
+    private final CommandGateway commandGateway;
 
     @Override
     public PayWalletMoney addMoneyToSeobetterpay(IncreaseMoneyAmountCommand command) {
@@ -115,5 +119,24 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
             return null;
         }
         //5. consume ok, Logic
+    }
+
+    @Override
+    public void addMoneyToSeobetterpayByEvent(MemberMoneyWallet memberMoneyWallet, IncreaseMoneyAmountCommand command) {
+        //axon command 생성
+        IncreaseMemberMoneyCommand increaseMemberMoneyCommand = new IncreaseMemberMoneyCommand(
+                memberMoneyWallet.getMoneyAggregateIdentifier(),
+                memberMoneyWallet.getMembershipId(),
+                command.getIncreaseAmount());
+
+        commandGateway.send(increaseMemberMoneyCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                log.info("throwable: {}", throwable);
+            }
+
+            //increase money sourcing 완료 -> money increase request
+            log.info("increase money result: {}", result);
+            increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
+        });
     }
 }

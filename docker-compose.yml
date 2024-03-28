@@ -2,12 +2,13 @@ version: '3'
 services:
   axon-server:
     container_name: axon-server
-    image: axoniq/axonserver:4.6.3-jdk-11-dev
+    hostname: axon-server
+    image: axoniq/axonserver:latest-jdk-17
     networks:
       - seobetter_network
     ports:
-      - "8024:8024"
-      - "8124:8124"
+      - '8024:8024'
+      - '8124:8124'
     volumes:
       - axonserver-data:/axonserver/data
       - axonserver-events:/axonserver/events
@@ -67,7 +68,7 @@ services:
       - ./db/data:/var/lib/mysql
       - ./db/initdb.d:/docker-entrypoint-initdb.d
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       - TZ=Asia/Seoul
       - MYSQL_ROOT_PASSWORD=232323
@@ -83,7 +84,12 @@ services:
       - "8081:8080"
     depends_on:
       - mysql
+      - axon-server
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/seo-better-pay?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
@@ -100,7 +106,12 @@ services:
       - "8082:8080"
     depends_on:
       - mysql
+      - axon-server
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/seo-better-pay?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!
@@ -118,6 +129,7 @@ services:
       - "8083:8080"
     depends_on:
       - mysql
+      - axon-server
     environment:
       - AXON_AXONSERVER_SERVERS=axon-server:8124
       - AXON_SERIALIZER_EVENTS=jackson
@@ -145,7 +157,12 @@ services:
     depends_on:
       - mysql
       - kafka
+      - axon-server
     environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
       - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/seo-better-pay?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true
       - SPRING_DATASOURCE_USERNAME=mysqluser
       - SPRING_DATASOURCE_PASSWORD=mysqlpw@!

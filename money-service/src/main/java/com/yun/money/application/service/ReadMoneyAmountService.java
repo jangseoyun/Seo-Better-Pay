@@ -4,9 +4,11 @@ import com.yun.common.UseCase;
 import com.yun.money.application.port.in.MembershipIdCommand;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
 import com.yun.money.application.port.out.ReadMoneyAmountPort;
+import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,6 +20,7 @@ import java.util.List;
 public class ReadMoneyAmountService implements ReadMoneyAmountUseCase {
 
     private final ReadMoneyAmountPort readMoneyAmountPort;
+    private final CommandGateway commandGateway;
 
     @Override
     public Integer getMoneyTotalAmount(MembershipIdCommand command) {
@@ -32,5 +35,10 @@ public class ReadMoneyAmountService implements ReadMoneyAmountUseCase {
     @Override
     public List<PayWalletMoney> getPayMoneyHistory(MembershipIdCommand command) {
         return readMoneyAmountPort.getPayMoneyHistory(command.getMembershipId());
+    }
+
+    @Override
+    public MemberMoneyWallet getMemberMoneyWallet(MembershipIdCommand command) {
+        return readMoneyAmountPort.getMemberMoneyWallet(command.getMembershipId());
     }
 }
