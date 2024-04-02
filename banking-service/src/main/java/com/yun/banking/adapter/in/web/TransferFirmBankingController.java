@@ -26,4 +26,9 @@ public class TransferFirmBankingController {
         TransferFirmBanking transferFirmBanking = transferFirmBankingUseCase.sendTransferRequest(request.toCommand());
         return ResponseEntity.ok().body(transferFirmBanking);
     }
+
+    @PostMapping("/transfer-eda")
+    public void sendTransferRequestByEvent(@RequestBody TransferFirmBankingRequest request) {
+        transferFirmBankingUseCase.sendTransferRequestByEvent(request.toCommand());
+    }
 }

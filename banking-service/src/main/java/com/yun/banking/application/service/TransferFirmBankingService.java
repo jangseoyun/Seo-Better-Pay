@@ -1,5 +1,7 @@
 package com.yun.banking.application.service;
 
+import com.yun.banking.adapter.axon.command.CreateFirmBankingCommand;
+import com.yun.banking.adapter.out.external.bank.model.CallExternalTransferRequest;
 import com.yun.banking.adapter.out.external.bank.model.FirmBankingResult;
 import com.yun.banking.application.port.in.TransferFirmBankingCommand;
 import com.yun.banking.application.port.in.TransferFirmBankingUseCase;
@@ -9,7 +11,10 @@ import com.yun.banking.domain.TransferFirmBanking;
 import com.yun.common.UseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.UUID;
 
 @Slf4j
 @UseCase
@@ -19,6 +24,7 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
 
     private final TransferFirmBankingPort transferFirmBankingPort;
     private final TransferExternalFirmBankingPort transferExternalFirmBankingPort;
+    private final CommandGateway commandGateway;
 
     @Override
     public TransferFirmBanking sendTransferRequest(TransferFirmBankingCommand command) {
@@ -34,5 +40,34 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
             //성공으로 update
         }*/
         return transferFirmBanking;
+    }
+
+    @Override
+    public void sendTransferRequestByEvent(TransferFirmBankingCommand command) {
+        //command -> event sourcing
+        CreateFirmBankingCommand axonCommand = CreateFirmBankingCommand.builder()
+                .fromBankName(command.getFromBankName())
+                .fromBankAccountNumber(command.getFromBankAccountNumber())
+                .toBankName(command.getToBankName())
+                .toBankAccountNumber(command.getToBankAccountNumber())
+                .transferAmount(command.getTransferAmount())
+                .build();
+
+        CallExternalTransferRequest callExternalTransferRequest = new CallExternalTransferRequest(
+                command.getFromBankName(),
+                command.getFromBankAccountNumber(),
+                command.getToBankName(),
+                command.getToBankAccountNumber(),
+                UUID.randomUUID().toString());
+
+        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                throwable.printStackTrace();
+                log.info("throwable:{}", throwable);
+            }
+
+            transferExternalFirmBankingPort.transferFunds(callExternalTransferRequest);
+            //firmbanking의 DB에 save
+        });
     }
 }

@@ -60,7 +60,8 @@ public class TransferFirmBankingCommand extends SelfValidating<TransferFirmBanki
                 fromBankName,
                 fromBankAccountNumber,
                 toBankName,
-                toBankAccountNumber
+                toBankAccountNumber,
+                ""
         );
     }
 }
