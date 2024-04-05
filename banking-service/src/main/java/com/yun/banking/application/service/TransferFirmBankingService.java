@@ -31,7 +31,7 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
         //송금 요청
         //1. a -> b 계좌
         //2. 요청( repository 요청 상태로 저장 )
-        TransferFirmBanking transferFirmBanking = transferFirmBankingPort.createdTransferBankingInfo(command.toRequestTransferFirmBanking());
+        TransferFirmBanking transferFirmBanking = transferFirmBankingPort.createdTransferBankingInfo(command.toRequestTransferFirmBanking(""));
         //3. TODO: 외부 은행에 펌뱅킹 요청
         FirmBankingResult firmBankingResult
                 = transferExternalFirmBankingPort.transferFunds(command.toExternalRequest());
@@ -53,12 +53,7 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
                 .transferAmount(command.getTransferAmount())
                 .build();
 
-        CallExternalTransferRequest callExternalTransferRequest = new CallExternalTransferRequest(
-                command.getFromBankName(),
-                command.getFromBankAccountNumber(),
-                command.getToBankName(),
-                command.getToBankAccountNumber(),
-                UUID.randomUUID().toString());
+
 
         commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
             if (throwable != null) {
@@ -66,8 +61,19 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
                 log.info("throwable:{}", throwable);
             }
 
-            transferExternalFirmBankingPort.transferFunds(callExternalTransferRequest);
+            log.info("result: {}", result.toString());
             //firmbanking의 DB에 save
+            transferFirmBankingPort.createdTransferBankingInfo(command.toRequestTransferFirmBanking(result.toString()));
+            //은행에 펌뱅킴 요청
+            CallExternalTransferRequest callExternalTransferRequest = new CallExternalTransferRequest(
+                    command.getFromBankName(),
+                    command.getFromBankAccountNumber(),
+                    command.getToBankName(),
+                    command.getToBankAccountNumber(),
+                    result.toString()
+                    );
+
+            transferExternalFirmBankingPort.transferFunds(callExternalTransferRequest);
         });
     }
 }

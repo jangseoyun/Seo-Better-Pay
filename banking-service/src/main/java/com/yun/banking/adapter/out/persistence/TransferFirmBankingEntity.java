@@ -32,6 +32,8 @@ public class TransferFirmBankingEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "transfer_request_status")
     private TransferRequestStatusEnum transferRequestStatus;
+    @Column(name = "transfer_aggregate_identifier")
+    private String transferAggregateIdentifier;
 
     public static TransferFirmBankingEntity of(TransferFirmBanking transferFirmBanking) {
         return new TransferFirmBankingEntity(null,
@@ -40,7 +42,8 @@ public class TransferFirmBankingEntity {
                 transferFirmBanking.getToBankName(),
                 transferFirmBanking.getToBankAccountNumber(),
                 transferFirmBanking.getTransferAmount(),
-                TransferRequestStatusEnum.SUCCESS);
+                TransferRequestStatusEnum.SUCCESS,
+                transferFirmBanking.getAggregateIdentifier());
     }
 
     @Override
