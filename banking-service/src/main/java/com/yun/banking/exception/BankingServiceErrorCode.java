@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum BankingServiceErrorCode {
-    INVALID_USER_ID_PASSWORD        ("UA0003", HttpStatus.FORBIDDEN, "아이디 또는 비밀번호가 일치하지 않습니다. 회원정보를 확인해주세요");
+    ENTITY_NOT_FOUND        ("BS0001", HttpStatus.NOT_FOUND, "요청 정보 데이터가 존재하지 않습니다.");
 
     private String errorCode;
     private HttpStatus status;

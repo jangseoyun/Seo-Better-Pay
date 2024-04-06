@@ -19,6 +19,8 @@ public class TransferFirmBankingEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "transfer_firm_banking_id")
     private Long id;
+/*    @Column(name = "membership_id")
+    private String membershipId;*/
     @Column(name = "from_bank_name")
     private String fromBankName;
     @Column(name = "from_bank_account_number")
@@ -42,8 +44,12 @@ public class TransferFirmBankingEntity {
                 transferFirmBanking.getToBankName(),
                 transferFirmBanking.getToBankAccountNumber(),
                 transferFirmBanking.getTransferAmount(),
-                TransferRequestStatusEnum.SUCCESS,
+                TransferRequestStatusEnum.REQUEST,
                 transferFirmBanking.getAggregateIdentifier());
+    }
+
+    public void succeedProcessingTransferFirmBanking(TransferRequestStatusEnum transferRequestStatus) {
+        this.transferRequestStatus = transferRequestStatus;
     }
 
     @Override

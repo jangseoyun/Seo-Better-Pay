@@ -1,8 +1,10 @@
 package com.yun.banking.application.service;
 
 import com.yun.banking.adapter.axon.command.CreateFirmBankingCommand;
+import com.yun.banking.adapter.axon.command.ProcessingFirmBankingCommand;
 import com.yun.banking.adapter.out.external.bank.model.CallExternalTransferRequest;
 import com.yun.banking.adapter.out.external.bank.model.FirmBankingResult;
+import com.yun.banking.application.port.in.ProcessingTransferFirmBankingCommand;
 import com.yun.banking.application.port.in.TransferFirmBankingCommand;
 import com.yun.banking.application.port.in.TransferFirmBankingUseCase;
 import com.yun.banking.application.port.out.TransferExternalFirmBankingPort;
@@ -13,8 +15,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.UUID;
 
 @Slf4j
 @UseCase
@@ -54,7 +54,6 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
                 .build();
 
 
-
         commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
             if (throwable != null) {
                 throwable.printStackTrace();
@@ -71,9 +70,31 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
                     command.getToBankName(),
                     command.getToBankAccountNumber(),
                     result.toString()
-                    );
+            );
 
             transferExternalFirmBankingPort.transferFunds(callExternalTransferRequest);
+        });
+    }
+
+    @Override
+    public void processingTransferFirmBankingByEvent(ProcessingTransferFirmBankingCommand command) {
+        //command 생성
+        ProcessingFirmBankingCommand axonCommand = new ProcessingFirmBankingCommand(
+                command.getFirmBankingRequestAggregateIdentifier(),
+                command.getTransferRequestStatus());
+
+        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                throwable.printStackTrace();
+                log.info("processingTransferFirmBankingByEvent throwable:{}", throwable);
+            }
+
+            log.info("processingTransferFirmBankingByEvent: {}", result);
+            transferFirmBankingPort.processingTransferFirmBanking(new TransferFirmBanking.TransferAggregateIdentifier(command.getFirmBankingRequestAggregateIdentifier()));
+
+            //status 변경으로 인한 외부 은행과의 커뮤니케이션
+            //만약 rollback -> status 변경
+            // + 기존 펌뱅킹 정보에서 송금 요청의 변경된 데이터 처리를 해주는 로직 실행
         });
     }
 }

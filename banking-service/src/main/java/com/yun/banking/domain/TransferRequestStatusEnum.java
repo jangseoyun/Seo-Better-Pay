@@ -7,6 +7,7 @@ import lombok.ToString;
 @Getter
 public enum TransferRequestStatusEnum {
     REQUEST,
+    PENDING,
     SUCCESS,
     FAIL
 }
