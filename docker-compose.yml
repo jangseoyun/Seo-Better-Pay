@@ -3,7 +3,7 @@ services:
   axon-server:
     container_name: axon-server
     hostname: axon-server
-    image: axoniq/axonserver:latest-jdk-17
+    image: axoniq/axonserver
     networks:
       - seobetter_network
     ports:

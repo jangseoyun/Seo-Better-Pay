@@ -15,7 +15,8 @@ public class TransferFirmBankingMapper {
                 new ToBankName(transferFirmBankingEntity.getToBankName()),
                 new ToBankAccountNumber(transferFirmBankingEntity.getToBankAccountNumber()),
                 new TransferAmount(transferFirmBankingEntity.getTransferAmount()),
-                new TransferRequestStatus(transferFirmBankingEntity.getTransferRequestStatus())
+                new TransferRequestStatus(transferFirmBankingEntity.getTransferRequestStatus()),
+                new TransferAggregateIdentifier(transferFirmBankingEntity.getTransferAggregateIdentifier())
         );
     }
 

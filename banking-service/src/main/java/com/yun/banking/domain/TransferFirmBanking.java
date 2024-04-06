@@ -22,6 +22,7 @@ public class TransferFirmBanking {
     private final int transferAmount;
     private final TransferRequestStatusEnum transferRequestStatus;
     private final TransferRequestId requestId;
+    private final String aggregateIdentifier;
 
     public static TransferFirmBanking generateTransferFirmBaking(
             TransferFirmBankingId transferFirmBankingId,
@@ -30,7 +31,8 @@ public class TransferFirmBanking {
             ToBankName toBankName,
             ToBankAccountNumber toBankAccountNumber,
             TransferAmount transferAmount,
-            TransferRequestStatus transferRequestStatus
+            TransferRequestStatus transferRequestStatus,
+            TransferAggregateIdentifier transferAggregateIdentifier
     ) {
         return new TransferFirmBanking(
                 transferFirmBankingId.transferFirmBankingId,
@@ -40,7 +42,8 @@ public class TransferFirmBanking {
                 toBankAccountNumber.toBankAccountNumber,
                 transferAmount.transferAmount,
                 transferRequestStatus.transferRequestStatus,
-                new TransferRequestId());
+                new TransferRequestId(),
+                transferAggregateIdentifier.aggregateIdentifier);
     }
 
     @Value
@@ -112,6 +115,14 @@ public class TransferFirmBanking {
 
         public TransferRequestId() {
             this.requestId = UUID.randomUUID();
+        }
+    }
+
+    @Value
+    public static class TransferAggregateIdentifier {
+        String aggregateIdentifier;
+        public TransferAggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
         }
     }
 

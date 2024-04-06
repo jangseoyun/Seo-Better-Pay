@@ -43,7 +43,7 @@ public class TransferFirmBankingCommand extends SelfValidating<TransferFirmBanki
         return new TransferFirmBankingCommand(fromBankName, fromBankAccountNumber, toBankName, toBankAccountNumber, transferAmount);
     }
 
-    public TransferFirmBanking toRequestTransferFirmBanking() {
+    public TransferFirmBanking toRequestTransferFirmBanking(String aggregateIdentifier) {
         return generateTransferFirmBaking(
                 new TransferFirmBankingId(null),
                 new FromBankName(fromBankName),
@@ -51,7 +51,8 @@ public class TransferFirmBankingCommand extends SelfValidating<TransferFirmBanki
                 new ToBankName(toBankName),
                 new ToBankAccountNumber(toBankAccountNumber),
                 new TransferAmount(transferAmount),
-                new TransferRequestStatus(TransferRequestStatusEnum.REQUEST)
+                new TransferRequestStatus(TransferRequestStatusEnum.REQUEST),
+                new TransferAggregateIdentifier(aggregateIdentifier)
         );
     }
 
@@ -60,7 +61,8 @@ public class TransferFirmBankingCommand extends SelfValidating<TransferFirmBanki
                 fromBankName,
                 fromBankAccountNumber,
                 toBankName,
-                toBankAccountNumber
+                toBankAccountNumber,
+                ""
         );
     }
 }
