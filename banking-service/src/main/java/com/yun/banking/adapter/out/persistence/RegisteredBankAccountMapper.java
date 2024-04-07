@@ -11,7 +11,8 @@ public class RegisteredBankAccountMapper {
                 new RegisteredBankAccount.MembershipId(registeredBankAccount.getMembershipId()),
                 new RegisteredBankAccount.BankName(registeredBankAccount.getBankName()),
                 new RegisteredBankAccount.BankAccountNumber(registeredBankAccount.getBankAccountNumber()),
-                new RegisteredBankAccount.LinkedStatusIsValid(registeredBankAccount.isLinkedStatusIsValid())
+                new RegisteredBankAccount.LinkedStatusIsValid(registeredBankAccount.isLinkedStatusIsValid()),
+                new RegisteredBankAccount.RegisteredAggregateIdentifier(registeredBankAccount.getAggregateIdentifier())
         );
     }
 }

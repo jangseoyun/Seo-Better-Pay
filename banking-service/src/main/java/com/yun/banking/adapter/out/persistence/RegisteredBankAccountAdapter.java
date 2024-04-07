@@ -19,7 +19,8 @@ public class RegisteredBankAccountAdapter implements RegisterBankAccountPort {
                         registeredBankAccount.getMembershipId(),
                         registeredBankAccount.getBankName(),
                         registeredBankAccount.getBankAccountNumber(),
-                        registeredBankAccount.isLinkedStatusIsValid())
+                        registeredBankAccount.isLinkedStatusIsValid(),
+                        registeredBankAccount.getAggregateIdentifier())
         );
         return mapper.mapToDomainEntity(bankAccountEntity);
     }

@@ -23,17 +23,20 @@ public class RegisteredBankAccountEntity {
     private String bankAccountNumber;
     @Column(name = "linked_status_valid")
     private boolean linkedStatusIsValid;
+    @Column(name = "aggregate_identifier")
+    private String aggregateIdentifier;
 
-    private RegisteredBankAccountEntity(Long id, String membershipId, String bankName, String bankAccountNumber, boolean linkedStatusIsValid) {
+    private RegisteredBankAccountEntity(Long id, String membershipId, String bankName, String bankAccountNumber, boolean linkedStatusIsValid, String aggregateIdentifier) {
         this.id = id;
         this.membershipId = membershipId;
         this.bankName = bankName;
         this.bankAccountNumber = bankAccountNumber;
         this.linkedStatusIsValid = linkedStatusIsValid;
+        this.aggregateIdentifier = aggregateIdentifier;
     }
 
-    public static RegisteredBankAccountEntity of(String membershipId, String bankName, String bankAccountNumber, boolean linkedStatusIsValid) {
-        return new RegisteredBankAccountEntity(null, membershipId, bankName, bankAccountNumber, linkedStatusIsValid);
+    public static RegisteredBankAccountEntity of(String membershipId, String bankName, String bankAccountNumber, boolean linkedStatusIsValid, String aggregateIdentifier) {
+        return new RegisteredBankAccountEntity(null, membershipId, bankName, bankAccountNumber, linkedStatusIsValid, aggregateIdentifier);
     }
 
     @Override

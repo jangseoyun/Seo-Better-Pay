@@ -37,13 +37,14 @@ public class RegisterBankAccountCommand extends SelfValidating<RegisterBankAccou
         return new RegisterBankAccountCommand(membershipId, bankName, bankAccountNumber, linkedStatusIsValid);
     }
 
-    public RegisteredBankAccount toDomainBankAccount() {
+    public RegisteredBankAccount toDomainBankAccount(String aggregateIdentifier) {
         return generateBankAccount(
                 new BankAccountId(null),
                 new MembershipId(membershipId),
                 new BankName(bankName),
                 new BankAccountNumber(bankAccountNumber),
-                new LinkedStatusIsValid(linkedStatusIsValid)
+                new LinkedStatusIsValid(linkedStatusIsValid),
+                new RegisteredAggregateIdentifier(aggregateIdentifier)
         );
     }
 
