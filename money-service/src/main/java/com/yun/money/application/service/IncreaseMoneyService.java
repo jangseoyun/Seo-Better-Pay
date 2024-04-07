@@ -1,6 +1,7 @@
 package com.yun.money.application.service;
 
 import com.yun.common.*;
+import com.yun.money.adapter.axon.command.AddMoneyRequestCreateCommand;
 import com.yun.money.adapter.axon.command.IncreaseMemberMoneyCommand;
 import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.application.port.in.IncreaseMoneyAmountCommand;
@@ -111,7 +112,8 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
         //4. task result consume
         //받은 응답을 다시 countDownLatchManager를 통해서 결과 데이터를 받아야한다
         String result = countDownLatchManager.getDataForKey(rechargingMoneyTask.getTaskId());
-        if (result.equals("success")) {
+        log.info("result: {}", result);
+        if (result.equals("SUCCESS")) {
             //4-1. consume ok, logic
             return increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
         } else {
@@ -123,12 +125,29 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
 
     @Override
     public void addMoneyToSeobetterpayByEvent(MemberMoneyWallet memberMoneyWallet, IncreaseMoneyAmountCommand command) {
-        //axon command 생성
+        AddMoneyRequestCreateCommand addMoneyRequestCreateCommand = new AddMoneyRequestCreateCommand(
+                memberMoneyWallet.getMoneyAggregateIdentifier(),
+                UUID.randomUUID().toString(),
+                memberMoneyWallet.getMembershipId(),
+                memberMoneyWallet.getMoneyTotalAmount());
+
+        commandGateway.send(addMoneyRequestCreateCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                log.info("throwable: {}", throwable);
+            }
+
+            //increase money sourcing 완료 -> money increase request
+            log.info("increase money result: {}", result.toString());
+            increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
+        });
+
+        /*//axon command 생성
         IncreaseMemberMoneyCommand increaseMemberMoneyCommand = new IncreaseMemberMoneyCommand(
                 memberMoneyWallet.getMoneyAggregateIdentifier(),
                 memberMoneyWallet.getMembershipId(),
                 command.getIncreaseAmount());
 
+        //saga의 시작을 나타내는 command
         commandGateway.send(increaseMemberMoneyCommand).whenComplete((result, throwable) -> {
             if (throwable != null) {
                 log.info("throwable: {}", throwable);
@@ -137,6 +156,6 @@ public class IncreaseMoneyService implements IncreaseMoneyUseCase {
             //increase money sourcing 완료 -> money increase request
             log.info("increase money result: {}", result);
             increaseMoneyAmountPort.increaseMoneyAmount(command.toPayWalletMoney(MoneyAdjustingResultStatus.SUCCEEDED));
-        });
+        });*/
     }
 }
