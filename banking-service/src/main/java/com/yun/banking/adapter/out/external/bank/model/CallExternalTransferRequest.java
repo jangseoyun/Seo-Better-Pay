@@ -6,6 +6,7 @@ public record CallExternalTransferRequest(
         String fromBankAccountNumber,
         String toBankName,
         String toBankAccountNumber,
+        int amount,
         String aggregateIdentifier
 ) {
 }

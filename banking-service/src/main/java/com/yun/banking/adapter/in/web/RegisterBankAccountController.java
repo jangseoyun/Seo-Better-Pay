@@ -27,4 +27,10 @@ public class RegisterBankAccountController {
         RegisteredBankAccount registeredBankAccount = registerBankAccountUseCase.registerBankAccountByMembership(request.toCommand());
         return ResponseEntity.ok().body(registeredBankAccount);
     }
+
+    @PostMapping("/register-eda")
+    public void registerBankAccountByEvent(@RequestBody RegisterBankAccountRequest request) {
+        //TODO: 계좌실명조회 api 기능 고도화
+        registerBankAccountUseCase.registerBankAccountByMembershipByEvent(request.toCommand());
+    }
 }

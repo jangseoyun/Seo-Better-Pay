@@ -11,20 +11,23 @@ public class RegisteredBankAccount {
     private final String bankName;
     private final String bankAccountNumber;
     private final boolean linkedStatusIsValid;
+    private final String aggregateIdentifier;
 
     public static RegisteredBankAccount generateBankAccount(
             BankAccountId registeredBankAccountId,
             MembershipId membershipId,
             BankName bankName,
             BankAccountNumber bankAccountNumber,
-            LinkedStatusIsValid linkedStatusIsValid
+            LinkedStatusIsValid linkedStatusIsValid,
+            RegisteredAggregateIdentifier registeredAggregateIdentifier
     ) {
         return new RegisteredBankAccount(
                 registeredBankAccountId.bankAccountId,
                 membershipId.membershipId,
                 bankName.bankName,
                 bankAccountNumber.bankAccountNumber,
-                linkedStatusIsValid.linkedStatusIsValid
+                linkedStatusIsValid.linkedStatusIsValid,
+                registeredAggregateIdentifier.aggregateIdentifier
         );
     }
 
@@ -70,6 +73,15 @@ public class RegisteredBankAccount {
 
         public LinkedStatusIsValid(boolean value) {
             this.linkedStatusIsValid = value;
+        }
+    }
+
+    @Value
+    public static class RegisteredAggregateIdentifier {
+        String aggregateIdentifier;
+
+        public RegisteredAggregateIdentifier(String value) {
+            this.aggregateIdentifier = value;
         }
     }
 

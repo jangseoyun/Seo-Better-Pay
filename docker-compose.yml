@@ -120,6 +120,7 @@ services:
       - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
       - LOGGING_TOPIC=seobetterpay.logging.out.stdout
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
+      - SERVICE_MONEY_URL=http://money-service:8080
 
   money-service:
     image: seo-better-pay-money-service:0.0.1-SNAPSHOT

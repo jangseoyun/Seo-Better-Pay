@@ -1,5 +1,6 @@
 package com.yun.banking.application.service;
 
+import com.yun.banking.adapter.axon.command.CreateRegisteredBankAccountCommand;
 import com.yun.banking.adapter.out.external.bank.model.CallApiBankAccountRequest;
 import com.yun.banking.application.port.in.RegisterBankAccountCommand;
 import com.yun.banking.application.port.in.RegisterBankAccountUseCase;
@@ -11,6 +12,7 @@ import com.yun.banking.domain.RegisteredBankAccount;
 import com.yun.common.UseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
@@ -22,6 +24,7 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
     private final RegisterBankAccountPort registerBankAccountPort;
     private final RequestBankAccountInfoPort requestBankAccountInfoPort;
     private final GetMembershipForBankingPort getMembershipForBankingPort;
+    private final CommandGateway commandGateway;
 
     @Override
     public RegisteredBankAccount registerBankAccountByMembership(RegisterBankAccountCommand command) {
@@ -43,6 +46,33 @@ public class RegisterBankAccountService implements RegisterBankAccountUseCase {
 
         //3. 등록이 가능한 계좌면 등록 / 아니면 예외
         //TODO: 예외처리
-        return registerBankAccountPort.createdBankAccount(command.toDomainBankAccount());
+        return registerBankAccountPort.createdBankAccount(command.toDomainBankAccount(""));
+    }
+
+    @Override
+    public void registerBankAccountByMembershipByEvent(RegisterBankAccountCommand command) {
+        CreateRegisteredBankAccountCommand axonCommand = new CreateRegisteredBankAccountCommand(
+                command.getMembershipId(),
+                command.getBankName(),
+                command.getBankAccountNumber());
+
+        commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
+            if (throwable != null) {
+                log.error("throwable: {}", throwable);
+            }
+
+            log.info("result: {}", result.toString());
+
+            requestBankAccountInfoPort.getBankAccountInfo(CallApiBankAccountRequest.of(command.getBankName(), command.getBankAccountNumber())
+                    ).filter(bankAccount -> bankAccount.isValid())
+                    .orElseThrow(() -> {
+                        throw new RuntimeException("유효하지 않은 계좌입니다");}
+                    );
+
+            //3. 등록이 가능한 계좌면 등록 / 아니면 예외
+            //TODO: 예외처리
+            registerBankAccountPort.createdBankAccount(command.toDomainBankAccount(result.toString()));
+        });
+
     }
 }

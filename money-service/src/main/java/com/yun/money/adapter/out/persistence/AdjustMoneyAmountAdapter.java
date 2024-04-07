@@ -10,10 +10,12 @@ import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @PersistenceAdapter
 @RequiredArgsConstructor
 public class AdjustMoneyAmountAdapter implements IncreaseMoneyAmountPort, DecreaseMoneyAmountPort, ReadMoneyAmountPort {
@@ -67,6 +69,8 @@ public class AdjustMoneyAmountAdapter implements IncreaseMoneyAmountPort, Decrea
 
     @Override
     public PayWalletMoney increaseMoneyAmount(PayWalletMoney payWalletMoney) {
+        log.info("increaseMoneyAmount payWalletMoney: {}", payWalletMoney);
+
         PayWalletMoneyEntity payWalletMoneyEntity
                 = payWalletMoneyJpaRepository.save(PayWalletMoneyFactory.toEntity(payWalletMoney));
         return payWalletMoneyMapper.mapToDomainWalletMoney(payWalletMoneyEntity);

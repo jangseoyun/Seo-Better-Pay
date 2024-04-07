@@ -9,5 +9,6 @@ public enum TransferRequestStatusEnum {
     REQUEST,
     PENDING,
     SUCCESS,
+    ROLLBACK,
     FAIL
 }

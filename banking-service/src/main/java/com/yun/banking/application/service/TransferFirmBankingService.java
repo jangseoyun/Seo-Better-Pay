@@ -69,6 +69,7 @@ public class TransferFirmBankingService implements TransferFirmBankingUseCase {
                     command.getFromBankAccountNumber(),
                     command.getToBankName(),
                     command.getToBankAccountNumber(),
+                    command.getTransferAmount(),
                     result.toString()
             );
 
