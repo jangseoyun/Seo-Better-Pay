@@ -7,22 +7,34 @@ import lombok.*;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModifyMembership {
 
-    private String membershipId;
+    private String editMembershipId;
+    private String membershipPw;
     private String address;
 
-    public static ModifyMembership generateInModifyMember(MembershipId membershipId,
+    public static ModifyMembership generateInModifyMember(EditMembershipId membershipId,
+                                                          MembershipPw membershipPw,
                                                           MembershipAddress membershipAddress) {
         return new ModifyMembership(
-                membershipId.id,
+                membershipId.editMembershipId,
+                membershipPw.password,
                 membershipAddress.address);
     }
 
     @Value
-    public static class MembershipId {
-        String id;
+    public static class EditMembershipId {
+        String editMembershipId;
 
-        public MembershipId(String value) {
-            this.id = value;
+        public EditMembershipId(String value) {
+            this.editMembershipId = value;
+        }
+    }
+
+    @Value
+    public static class MembershipPw {
+        String password;
+
+        public MembershipPw(String value) {
+            this.password = value;
         }
     }
 

@@ -17,23 +17,25 @@ import static com.yun.membership.domain.ModifyMembership.*;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public class ModifyMembershipCommand extends SelfValidating<ModifyMembershipRequest> {
-    @NotNull
-    @NotEmpty
-    private final String membershipId;
+
+    private final String editMembershipId;
+    private final String membershipPw;
     private final String address;
 
-    private ModifyMembershipCommand(String membershipId, String address) {
-        this.membershipId = membershipId;
+    private ModifyMembershipCommand(String editMembershipId, String membershipPw, String address) {
+        this.editMembershipId = editMembershipId;
+        this.membershipPw = membershipPw;
         this.address = address;
     }
 
-    public static ModifyMembershipCommand of(String membershipId, String address) {
-        return new ModifyMembershipCommand(membershipId, address);
+    public static ModifyMembershipCommand of(String membershipId, String membershipPw, String address) {
+        return new ModifyMembershipCommand(membershipId, membershipPw, address);
     }
 
     public ModifyMembership toMembership() {
         return generateInModifyMember(
-                new MembershipId(membershipId),
+                new EditMembershipId(editMembershipId),
+                new MembershipPw(membershipPw),
                 new MembershipAddress(address));
     }
 }

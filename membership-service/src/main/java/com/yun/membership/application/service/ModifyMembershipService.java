@@ -25,7 +25,7 @@ public class ModifyMembershipService implements ModifyMembershipUseCase {
     private final ReadMembershipPort readMembershipPort;
     @Override
     public Membership modifyMembershipInfo(ModifyMembershipCommand command) {
-        if (!readMembershipPort.findByMembershipId(command.getMembershipId()).isValid()) {
+        if (!readMembershipPort.findByMembershipId(command.getEditMembershipId()).isValid()) {
             throw new MembershipModuleException(USER_NOTFOUND_ACCOUNT, USER_NOTFOUND_ACCOUNT.getMessage());
         }
         return modifyMembershipPort.updateMembershipInfo(command.toMembership());
