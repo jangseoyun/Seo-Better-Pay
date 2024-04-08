@@ -25,7 +25,7 @@ public class RegisterMembershipController {
     private final RegisterMembershipUseCase registerMembershipUseCase;
 
     @PostMapping("/register")
-    public ResponseEntity<MembershipResult> registerMemberShip(@RequestBody @Validated RegisterMembershipRequest registerMembershipRequest) {
+    public ResponseEntity<MembershipResult> registerMemberShip(@RequestBody @Valid RegisterMembershipRequest registerMembershipRequest) {
         log.info("membership register request: {}", registerMembershipRequest);
         Membership membership = registerMembershipUseCase.registerMembership(registerMembershipRequest.toCommand());
         return ResponseEntity.ok().body(MembershipResult.success(membership));

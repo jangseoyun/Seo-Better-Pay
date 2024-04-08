@@ -1,6 +1,7 @@
 package com.yun.membership.application.port.in;
 
 import com.yun.common.SelfValidating;
+import com.yun.membership.adapter.in.web.model.request.RegisterMembershipRequest;
 import com.yun.membership.domain.Membership;
 import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
@@ -11,7 +12,7 @@ import lombok.EqualsAndHashCode;
  * 내부 시스템 admin에서 권한을 변경할 수 있다
  */
 @EqualsAndHashCode(callSuper = false)
-public class RegisterMembershipCommand extends SelfValidating<RegisterMembershipCommand> {
+public class RegisterMembershipCommand extends SelfValidating<RegisterMembershipRequest> {
 
     private final String membershipId;
     private final String membershipPw;
@@ -32,6 +33,7 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
         this.name = name;
         this.address = address;
         this.isValid = isValid;
+        this.validateSelf();
     }
 
     public static RegisterMembershipCommand of(String membershipId,
