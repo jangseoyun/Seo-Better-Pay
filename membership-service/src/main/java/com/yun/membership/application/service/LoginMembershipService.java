@@ -26,18 +26,18 @@ public class LoginMembershipService implements LoginMembershipUseCase {
     @Override
     public MembershipResult requestLogin(LoginMembershipCommand command) {
 
-        Membership membership = readMembershipPort.findByMembershipId(command.getMembershipId());
-        log.info("getMembership: {}", membership);
+        Membership getResultmembership = readMembershipPort.findByMembershipId(command.getMembershipId());
+        log.info("getMembership: {}", getResultmembership);
 
         boolean checkedMembershipPw = loginInfoValidator.checkMembershipPw(
-                membership.getMembershipPw(), command.getMembershipPw()
+                getResultmembership.getMembershipPw(), command.getMembershipPw()
         );
 
         if (!checkedMembershipPw) {
             throw new MembershipModuleException(INVALID_USER_ID_PASSWORD, INVALID_USER_ID_PASSWORD.getMessage());
         }
 
-        return MembershipResult.success(membership.getMembershipId());
+        return MembershipResult.success(getResultmembership.getMembershipId());
     }
 
 }

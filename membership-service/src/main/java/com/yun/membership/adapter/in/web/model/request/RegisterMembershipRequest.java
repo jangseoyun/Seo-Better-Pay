@@ -18,7 +18,7 @@ public record RegisterMembershipRequest(
         String membershipEmail,
         @NotNull @NotBlank @NotEmpty
         @Length(min = 3, max = 6, message = "이름은 성을 포함한 3자 ~ 6자 사이를 입력합니다.")
-        @Pattern(regexp = "[ㄱ-ㅎ가-힣]", message = "이름은 한글만 가능합니다.")
+        @Pattern(regexp = "^[ㄱ-ㅎ|가-힣]*$", message = "이름은 한글만 가능합니다.")
         String name,
         @NotNull @NotBlank @NotEmpty
         String address
