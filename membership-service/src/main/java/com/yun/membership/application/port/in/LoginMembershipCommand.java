@@ -20,11 +20,8 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @EqualsAndHashCode(callSuper = false)
 public class LoginMembershipCommand extends SelfValidating<LoginMembershipRequest> {
-    @Length(max = 12)
-    @NotNull @NotEmpty @NotBlank
+
     private String membershipId;
-    @Length(max = 10)
-    @NotNull @NotEmpty @NotBlank
     private String membershipPw;
 
     public LoginMembershipCommand(String membershipId, String membershipPw) {

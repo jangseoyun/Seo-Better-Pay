@@ -11,8 +11,7 @@ import lombok.Getter;
 @Getter
 @EqualsAndHashCode(callSuper = false)
 public class ReadMembershipCommand extends SelfValidating<ReadMembershipRequest> {
-    @NotNull
-    @NotBlank
+
     private final String membershipId;
 
     private ReadMembershipCommand(String membershipId) {
