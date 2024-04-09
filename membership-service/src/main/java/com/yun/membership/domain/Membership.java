@@ -5,6 +5,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Getter
+@ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Membership {
@@ -36,6 +37,7 @@ public class Membership {
     }
 
     public static Membership generateOutMember(MembershipId membershipId,
+                                               MembershipPw membershipPw,
                                                MembershipName membershipName,
                                                MembershipEmail membershipEmail,
                                                MembershipAddress membershipAddress,
@@ -44,7 +46,7 @@ public class Membership {
                                                InfoModifiedAt infoModifiedAt) {
         return new Membership(
                 membershipId.id,
-                null,
+                membershipPw.password,
                 membershipName.name,
                 membershipEmail.email,
                 membershipAddress.address,

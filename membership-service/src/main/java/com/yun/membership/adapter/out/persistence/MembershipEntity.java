@@ -20,9 +20,9 @@ import java.util.Objects;
         })
 public class MembershipEntity {
     @Id
-    @Column(name = "membership_id", length = 50)
+    @Column(name = "membership_id", length = 12)
     private String membershipId;
-    @Column(name = "membership_pw", length = 50, nullable = false)
+    @Column(name = "membership_pw", length = 10, nullable = false)
     private String membershipPw;
     @Column(name = "membership_email", length = 100, nullable = false)
     private String membershipEmail;

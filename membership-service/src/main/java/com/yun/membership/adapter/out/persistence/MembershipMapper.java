@@ -10,6 +10,7 @@ public class MembershipMapper {
     public Membership mapToMembership(MembershipEntity membershipEntity) {
         return generateOutMember(
                 new MembershipId(membershipEntity.getMembershipId()),
+                new MembershipPw(membershipEntity.getMembershipPw()),
                 new MembershipName(membershipEntity.getName()),
                 new MembershipEmail(membershipEntity.getMembershipEmail()),
                 new MembershipAddress(membershipEntity.getAddress()),

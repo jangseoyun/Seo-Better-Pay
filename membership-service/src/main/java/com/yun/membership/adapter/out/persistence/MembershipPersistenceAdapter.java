@@ -42,12 +42,12 @@ public class MembershipPersistenceAdapter implements RegisterMembershipPort, Rea
 
     @Override
     public Membership updateMembershipInfo(ModifyMembership modifyMembership) {
-        MembershipEntity getMembership = membershipJpaRepository.findById(modifyMembership.getMembershipId())
+        MembershipEntity getMembership = membershipJpaRepository.findById(modifyMembership.getEditMembershipId())
                 .orElseThrow(() -> {
                     throw new MembershipModuleException(USER_NOTFOUND_ACCOUNT, USER_NOTFOUND_ACCOUNT.getMessage());
                 });
 
-        getMembership.updateMembershipInfo(modifyMembership.getMembershipId(), modifyMembership.getAddress());
+        getMembership.updateMembershipInfo(modifyMembership.getEditMembershipId(), modifyMembership.getAddress());
         return mapper.mapToMembership(membershipJpaRepository.save(getMembership));
     }
 }
