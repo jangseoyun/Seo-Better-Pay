@@ -9,7 +9,7 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode(callSuper = false)
-public class CreateMemberMoneyCommand extends SelfValidating<MembershipIdRequest> {
+public class CreateMemberMoneyCommand extends SelfValidating<CreateMemberMoneyCommand> {
 
     @NotNull
     @NotEmpty
