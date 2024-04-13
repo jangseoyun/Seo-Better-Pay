@@ -1,6 +1,6 @@
 package com.yun.money.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.application.port.in.DecreaseMoneyAmountCommand;
 import com.yun.money.application.port.in.DecreaseMoneyUseCase;

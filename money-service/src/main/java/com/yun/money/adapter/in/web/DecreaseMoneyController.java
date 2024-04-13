@@ -1,6 +1,6 @@
 package com.yun.money.adapter.in.web;
 
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import com.yun.money.adapter.in.web.model.DecreaseMoneyAmountRequest;
 import com.yun.money.application.port.in.DecreaseMoneyUseCase;
 import com.yun.money.domain.PayWalletMoney;

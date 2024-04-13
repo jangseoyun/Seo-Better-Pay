@@ -1,9 +1,8 @@
 package com.yun.money.adapter.in.web;
 
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import com.yun.money.adapter.in.web.model.MembershipIdRequest;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
-import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

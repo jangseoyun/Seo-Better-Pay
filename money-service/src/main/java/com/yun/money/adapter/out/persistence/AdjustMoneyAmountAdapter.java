@@ -1,8 +1,8 @@
 package com.yun.money.adapter.out.persistence;
 
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import com.yun.money.adapter.out.persistence.factory.PayWalletMoneyFactory;
-import com.yun.money.application.port.in.IncreaseMoneyAmountCommand;
+import com.yun.money.application.port.in.RechargeMoneyAmountCommand;
 import com.yun.money.application.port.out.DecreaseMoneyAmountPort;
 import com.yun.money.application.port.out.IncreaseMoneyAmountPort;
 import com.yun.money.application.port.out.ReadMoneyAmountPort;
@@ -63,7 +63,7 @@ public class AdjustMoneyAmountAdapter implements IncreaseMoneyAmountPort, Decrea
     }
 
     @Override
-    public void addMoneyToSeobetterpayByEvent(IncreaseMoneyAmountCommand command) {
+    public void addMoneyToSeobetterpayByEvent(RechargeMoneyAmountCommand command) {
 
     }
 
