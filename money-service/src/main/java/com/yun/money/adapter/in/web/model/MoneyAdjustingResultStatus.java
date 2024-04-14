@@ -1,8 +1,9 @@
 package com.yun.money.adapter.in.web.model;
 
 public enum MoneyAdjustingResultStatus {
-    SUCCEEDED,
+    READY,
     PENDING,
+    SUCCEEDED,
     FAILED,
     FAILED_NOT_ENOUGH_MONEY, //잔액 부족
     FAILED_NOT_EXIST_MEMBERSHIP, //멤버십 없음

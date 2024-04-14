@@ -1,6 +1,6 @@
 package com.yun.money.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.money.application.port.in.MembershipIdCommand;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
 import com.yun.money.application.port.out.ReadMoneyAmountPort;

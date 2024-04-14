@@ -1,9 +1,9 @@
 package com.yun.money.adapter.in.web;
 
-import com.yun.common.WebAdapter;
-import com.yun.money.adapter.in.web.model.IncreaseMoneyAmountRequest;
+import com.yun.common.anotation.WebAdapter;
+import com.yun.money.adapter.in.web.model.RechargeMoneyAmountRequest;
 import com.yun.money.adapter.in.web.model.MembershipIdRequest;
-import com.yun.money.application.port.in.IncreaseMoneyUseCase;
+import com.yun.money.application.port.in.RechargeMoneyUseCase;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
 import com.yun.money.domain.MemberMoneyWallet;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.*;
 public class RequestMoneyAdjustController {
 
     private final ReadMoneyAmountUseCase readMoneyAmountUseCase;
-    private final IncreaseMoneyUseCase increaseMoneyUseCase;
+    private final RechargeMoneyUseCase rechargeMoneyUseCase;
 
     @PostMapping("/{membershipId}/increase-eda")
     public void increaseMoneyAdjustingRequestByEvent(@PathVariable("membershipId") MembershipIdRequest requestMember,
-                                                     @RequestBody IncreaseMoneyAmountRequest request) {
+                                                     @RequestBody RechargeMoneyAmountRequest request) {
         MemberMoneyWallet memberMoneyWallet = readMoneyAmountUseCase.getMemberMoneyWallet(requestMember.toCommand());
-        increaseMoneyUseCase.addMoneyToSeobetterpayByEvent(memberMoneyWallet, request.toCommand());
+        rechargeMoneyUseCase.addMoneyToSeobetterpayByEvent(memberMoneyWallet, request.toCommand());
     }
 }

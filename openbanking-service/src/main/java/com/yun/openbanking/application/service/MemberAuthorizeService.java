@@ -1,6 +1,6 @@
 package com.yun.openbanking.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.openbanking.application.port.in.MemberAuthorizeCommand;
 import com.yun.openbanking.application.port.in.MemberAuthorizeUseCase;
 import com.yun.openbanking.application.port.out.MemberAuthorizePort;

@@ -1,9 +1,8 @@
 package com.yun.money.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.money.adapter.axon.command.MemberMoneyCreateCommand;
 import com.yun.money.application.port.in.CreateMemberMoneyCommand;
-import com.yun.money.application.port.in.MembershipIdCommand;
 import com.yun.money.application.port.in.MoneyWalletCreateUseCase;
 import com.yun.money.application.port.out.CreateMoneyWalletPort;
 import com.yun.money.domain.MemberMoneyWallet;

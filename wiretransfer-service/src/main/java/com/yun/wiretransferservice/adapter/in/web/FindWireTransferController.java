@@ -1,6 +1,6 @@
 package com.yun.wiretransferservice.adapter.in.web;
 
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import com.yun.wiretransferservice.application.port.in.ReadWIreTransferUseCase;
 import com.yun.wiretransferservice.domain.WireTransfer;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.yun.wiretransferservice.adapter.out.service.banking;
 
-import com.yun.common.ExternalSystemAdapter;
-import com.yun.common.httpclient.CommonHttpClient;
+import com.yun.common.anotation.ExternalSystemAdapter;
+import com.yun.common.httpclient.CommonRestClient;
 import com.yun.wiretransferservice.application.port.out.banking.BankingForWireTransferPort;
 import com.yun.wiretransferservice.application.port.out.banking.BankingInfo;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 @RequiredArgsConstructor
 public class BankingServiceForWireTransferAdapter implements BankingForWireTransferPort {
 
-    private final CommonHttpClient bankingHttpClient;
+    private final CommonRestClient bankingHttpClient;
     @Value("${service.banking.url}")
     private String bankingServiceUrl;
 

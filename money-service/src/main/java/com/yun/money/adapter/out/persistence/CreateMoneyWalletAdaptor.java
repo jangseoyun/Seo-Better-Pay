@@ -1,6 +1,6 @@
 package com.yun.money.adapter.out.persistence;
 
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import com.yun.money.application.port.out.CreateMoneyWalletPort;
 import com.yun.money.domain.MemberMoneyWallet;
 import lombok.RequiredArgsConstructor;

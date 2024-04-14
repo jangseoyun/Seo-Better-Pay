@@ -1,6 +1,6 @@
 package com.yun.money.application.port.out;
 
-import com.yun.money.application.port.in.IncreaseMoneyAmountCommand;
+import com.yun.money.application.port.in.RechargeMoneyAmountCommand;
 import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 
@@ -11,5 +11,5 @@ public interface ReadMoneyAmountPort {
     List<PayWalletMoney> getAddMoneyHistory(String membershipId);
     List<PayWalletMoney> getPayMoneyHistory(String membershipId);
     MemberMoneyWallet getMemberMoneyWallet(String membershipId);
-    void addMoneyToSeobetterpayByEvent(IncreaseMoneyAmountCommand command);
+    void addMoneyToSeobetterpayByEvent(RechargeMoneyAmountCommand command);
 }
