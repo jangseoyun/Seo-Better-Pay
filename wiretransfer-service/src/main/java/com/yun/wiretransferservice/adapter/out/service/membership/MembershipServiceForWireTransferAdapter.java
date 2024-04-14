@@ -22,7 +22,7 @@ public class MembershipServiceForWireTransferAdapter implements MembershipForWir
     public MembershipStatus getMembershipStatus(String membershipId) {
         String buildUrl = String.join("/", this.membershipServiceEndPoint, "membership", membershipId);
         try {
-            String jsonResponse = membershipHttpClient.sendGetRequest(buildUrl).body();
+            String jsonResponse = membershipHttpClient.sendGetRequest(buildUrl).getBody().toString();
             MembershipForWireTransfer membership = objectMapper.readValue(jsonResponse, MembershipForWireTransfer.class);
             if (membership.isValid()) {
                 return new MembershipStatus(membership.getMembershipId(), true);
