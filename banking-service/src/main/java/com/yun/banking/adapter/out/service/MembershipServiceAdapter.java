@@ -4,16 +4,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yun.banking.application.port.out.GetMembershipForBankingPort;
 import com.yun.banking.application.port.out.MembershipForBanking;
 import com.yun.banking.application.port.out.MembershipServiceStatus;
-import com.yun.common.httpclient.CommonHttpClient;
+import com.yun.common.httpclient.CommonRestClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class MembershipServiceAdapter implements GetMembershipForBankingPort {
 
-    private final CommonHttpClient commonHttpClient;
+    private final CommonRestClient commonRestClient;
     private final ObjectMapper objectMapper;
 
     @Value("${service.membership.url}")
@@ -26,9 +27,9 @@ public class MembershipServiceAdapter implements GetMembershipForBankingPort {
         String url = String.join("/", membershipServiceUrl, "membership", membershipId);
         MembershipForBanking membershipForBanking;
         try {
-            String jsonResponse = commonHttpClient.sendGetRequest(url).body();
+            ResponseEntity response = commonRestClient.sendGetRequest(url);
             //json 형태의 membership 정보
-            membershipForBanking = objectMapper.readValue(jsonResponse, MembershipForBanking.class);
+            membershipForBanking = objectMapper.readValue(response.getBody().toString(), MembershipForBanking.class);
 
             if (membershipForBanking.isValid()) {
                 return new MembershipServiceStatus(membershipForBanking.getMembershipId(), true);

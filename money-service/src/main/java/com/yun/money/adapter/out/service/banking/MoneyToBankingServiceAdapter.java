@@ -2,7 +2,7 @@ package com.yun.money.adapter.out.service.banking;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yun.common.httpclient.CommonHttpClient;
+import com.yun.common.httpclient.CommonRestClient;
 import com.yun.money.application.port.out.banking.BankingForMoneyPort;
 import com.yun.money.application.port.out.banking.GetRegisteredBankAccountPort;
 import com.yun.money.application.port.out.banking.RegisteredBankAccountAggregateIdentifier;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetRegisteredBankAccountPort {
 
-    private final CommonHttpClient bankingHttpClient;
+    private final CommonRestClient bankingHttpClient;
     private final ObjectMapper objectMapper;
 
     @Value("${service.banking.url}")
@@ -28,7 +28,7 @@ public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetReg
         log.info("url: {}", url);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         try {
-            String jsonResponse = bankingHttpClient.sendGetRequest(url).body();
+            String jsonResponse = bankingHttpClient.sendGetRequest(url).toString();
             return objectMapper.readValue(jsonResponse, BankAccountForMoney.class);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -41,7 +41,7 @@ public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetReg
         log.info("url: {}", url);
 
         try {
-            String jsonResponse = bankingHttpClient.sendGetRequest(url).body();
+            String jsonResponse = bankingHttpClient.sendGetRequest(url).toString();
             RegisteredBankAccount registeredBankAccount = objectMapper.readValue(jsonResponse, RegisteredBankAccount.class);
 
             return new RegisteredBankAccountAggregateIdentifier(

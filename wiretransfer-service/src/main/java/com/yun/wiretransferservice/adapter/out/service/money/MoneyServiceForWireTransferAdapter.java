@@ -21,7 +21,7 @@ public class MoneyServiceForWireTransferAdapter implements MoneyForWireTransferP
     public MoneyInfo getMoneyInfo(String membershipId) {
         String buildUrl = String.join("/", this.moneyServiceEndPoint, "money", membershipId);
         try {
-            String jsonResponse = moneyHttpClient.sendGetRequest(buildUrl).body();
+            String jsonResponse = moneyHttpClient.sendGetRequest(buildUrl).getBody().toString();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
