@@ -1,6 +1,6 @@
 package com.yun.wiretransferservice.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.wiretransferservice.adapter.in.web.model.WireTransferType;
 import com.yun.wiretransferservice.application.port.in.WireTransferCommand;
 import com.yun.wiretransferservice.application.port.in.WireTransferUseCase;

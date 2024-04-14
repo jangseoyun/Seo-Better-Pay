@@ -1,6 +1,6 @@
 package com.yun.wiretransferservice.adapter.out.persistence;
 
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import com.yun.wiretransferservice.application.port.out.ReadWireTransferHistoryPort;
 import com.yun.wiretransferservice.application.port.out.WireTransferPort;
 import com.yun.wiretransferservice.domain.WireTransfer;

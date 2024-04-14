@@ -1,6 +1,6 @@
 package com.yun.wiretransferservice.adapter.out.persistence;
 
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import com.yun.wiretransferservice.application.port.out.WireTransferRequestPort;
 import com.yun.wiretransferservice.domain.WireTransferRequestDomain;
 import lombok.RequiredArgsConstructor;

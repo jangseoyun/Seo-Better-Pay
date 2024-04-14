@@ -1,8 +1,8 @@
 package com.yun.wiretransferservice.adapter.out.service.money;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yun.common.ExternalSystemAdapter;
-import com.yun.common.httpclient.CommonHttpClient;
+import com.yun.common.anotation.ExternalSystemAdapter;
+import com.yun.common.httpclient.CommonRestClient;
 import com.yun.wiretransferservice.application.port.out.money.MoneyForWireTransferPort;
 import com.yun.wiretransferservice.application.port.out.money.MoneyInfo;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 @RequiredArgsConstructor
 public class MoneyServiceForWireTransferAdapter implements MoneyForWireTransferPort {
 
-    private final CommonHttpClient moneyHttpClient;
+    private final CommonRestClient moneyHttpClient;
     private final ObjectMapper objectMapper;
     @Value("${service.money.url}")
     private String moneyServiceEndPoint;

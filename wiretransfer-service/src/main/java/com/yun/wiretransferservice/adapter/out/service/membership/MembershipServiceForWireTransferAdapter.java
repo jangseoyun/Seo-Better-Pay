@@ -1,8 +1,8 @@
 package com.yun.wiretransferservice.adapter.out.service.membership;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.yun.common.ExternalSystemAdapter;
-import com.yun.common.httpclient.CommonHttpClient;
+import com.yun.common.anotation.ExternalSystemAdapter;
+import com.yun.common.httpclient.CommonRestClient;
 import com.yun.wiretransferservice.application.port.out.membership.MembershipForWireTransfer;
 import com.yun.wiretransferservice.application.port.out.membership.MembershipForWireTransferPort;
 import com.yun.wiretransferservice.application.port.out.membership.MembershipStatus;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 @RequiredArgsConstructor
 public class MembershipServiceForWireTransferAdapter implements MembershipForWireTransferPort {
 
-    private final CommonHttpClient membershipHttpClient;
+    private final CommonRestClient membershipHttpClient;
     private final ObjectMapper objectMapper;
     @Value("${service.membership.url}")
     private String membershipServiceEndPoint;
