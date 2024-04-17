@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
-import java.net.URI;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
@@ -20,7 +19,7 @@ public class CommonRestClient {
     public ResponseEntity sendGetRequest(String url) {
         return restClient
                 .get()
-                .uri(URI.create(url))
+                .uri(url)
                 .accept(APPLICATION_JSON)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
@@ -32,12 +31,12 @@ public class CommonRestClient {
     public ResponseEntity sendPostRequest(String url, String body) {
         return restClient
                 .post()
-                .uri(URI.create(url))
+                .uri(url)
                 .accept()
                 .body(body)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
-                    throw new IOException();
+                    throw new IOException(response.getBody().toString());
                 }))
                 .toBodilessEntity();
     }
