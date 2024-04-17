@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 
 @Slf4j
 @Configuration
-public class HttpClientConfig {
+public class RestClientConfig {
 
     @Bean
     public RestClient httpConnectionConfig() {
