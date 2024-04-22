@@ -4,7 +4,7 @@ import com.yun.banking.application.port.out.TransferFirmBankingPort;
 import com.yun.banking.domain.TransferFirmBanking;
 import com.yun.banking.domain.TransferRequestStatusEnum;
 import com.yun.banking.exception.BankingModuleException;
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

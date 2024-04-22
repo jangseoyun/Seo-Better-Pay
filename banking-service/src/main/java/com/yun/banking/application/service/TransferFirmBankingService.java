@@ -10,7 +10,7 @@ import com.yun.banking.application.port.in.TransferFirmBankingUseCase;
 import com.yun.banking.application.port.out.TransferExternalFirmBankingPort;
 import com.yun.banking.application.port.out.TransferFirmBankingPort;
 import com.yun.banking.domain.TransferFirmBanking;
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.gateway.CommandGateway;

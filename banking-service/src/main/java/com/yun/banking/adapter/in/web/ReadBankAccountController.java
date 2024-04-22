@@ -3,7 +3,7 @@ package com.yun.banking.adapter.in.web;
 import com.yun.banking.adapter.in.web.model.request.SearchBankAccountRequest;
 import com.yun.banking.application.port.in.ReadBankAccountUseCase;
 import com.yun.banking.domain.RegisteredBankAccount;
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
