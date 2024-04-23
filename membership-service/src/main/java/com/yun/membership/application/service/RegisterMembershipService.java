@@ -1,6 +1,6 @@
 package com.yun.membership.application.service;
 
-import com.yun.common.UseCase;
+import com.yun.common.anotation.UseCase;
 import com.yun.membership.application.port.in.RegisterMembershipCommand;
 import com.yun.membership.application.port.in.RegisterMembershipUseCase;
 import com.yun.membership.application.port.out.ReadMembershipPort;

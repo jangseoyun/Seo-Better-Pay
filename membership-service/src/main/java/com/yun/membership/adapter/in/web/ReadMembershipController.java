@@ -1,25 +1,19 @@
 package com.yun.membership.adapter.in.web;
 
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import com.yun.membership.adapter.in.web.model.MembershipResult;
 import com.yun.membership.adapter.in.web.model.request.ReadMembershipRequest;
 import com.yun.membership.application.port.in.ReadMembershipUseCase;
 import com.yun.membership.domain.Membership;
 
 import jakarta.validation.Valid;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
