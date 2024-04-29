@@ -5,10 +5,7 @@ import com.yun.money.adapter.in.web.model.CreateMemberMoneyRequest;
 import com.yun.money.application.port.in.MoneyWalletCreateUseCase;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @WebAdapter
@@ -19,8 +16,9 @@ public class CreateMoneyWalletController {
 
     private final MoneyWalletCreateUseCase moneyWalletCreateUseCase;
 
-    @PostMapping("/{membershipId}/balance")
-    public void processMemberMoneyWalletCalculator(@PathVariable("membershipId") CreateMemberMoneyRequest request) {
+    @PostMapping("/new")
+    public void processMemberMoneyWalletCalculator(@RequestBody CreateMemberMoneyRequest request) {
+        log.info("money new request: {}", request);
         moneyWalletCreateUseCase.createMemberMoneyWallet(request.toCommand());
     }
 }
