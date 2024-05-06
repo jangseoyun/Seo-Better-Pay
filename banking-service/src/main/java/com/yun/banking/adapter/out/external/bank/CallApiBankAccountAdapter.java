@@ -4,10 +4,11 @@ import com.yun.banking.adapter.out.external.bank.model.BankAccount;
 import com.yun.banking.adapter.out.external.bank.model.CallApiBankAccountRequest;
 import com.yun.banking.adapter.out.external.bank.model.CallExternalTransferRequest;
 import com.yun.banking.adapter.out.external.bank.model.FirmBankingResult;
+import com.yun.banking.adapter.out.factory.BankAccountInfoFactory;
 import com.yun.banking.application.port.out.RequestBankAccountInfoPort;
 import com.yun.banking.application.port.out.TransferExternalFirmBankingPort;
 import com.yun.banking.domain.TransferRequestStatusEnum;
-import com.yun.common.ExternalSystemAdapter;
+import com.yun.common.anotation.ExternalSystemAdapter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.Optional;
@@ -18,11 +19,7 @@ public class CallApiBankAccountAdapter implements RequestBankAccountInfoPort, Tr
     //TODO: 계좌실명조회 api (실제 은행 계좌 api 호출)
     @Override
     public Optional<BankAccount> getBankAccountInfo(CallApiBankAccountRequest callApiBankAccountRequest) {
-        BankAccount bankAccount = new BankAccount(
-                callApiBankAccountRequest.bankName(),
-                callApiBankAccountRequest.bankAccountNumber(),
-                true);
-        return Optional.of(bankAccount);
+        return Optional.of(BankAccountInfoFactory.newBankAccount(callApiBankAccountRequest));
     }
 
     @Override

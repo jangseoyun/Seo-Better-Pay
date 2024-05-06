@@ -4,7 +4,7 @@ import com.yun.banking.adapter.in.web.model.request.ProcessingTransferFirmBankin
 import com.yun.banking.adapter.in.web.model.request.TransferFirmBankingRequest;
 import com.yun.banking.application.port.in.TransferFirmBankingUseCase;
 import com.yun.banking.domain.TransferFirmBanking;
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

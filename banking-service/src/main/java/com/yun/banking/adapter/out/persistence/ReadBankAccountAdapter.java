@@ -2,7 +2,7 @@ package com.yun.banking.adapter.out.persistence;
 
 import com.yun.banking.application.port.out.ReadBankAccountPort;
 import com.yun.banking.domain.RegisteredBankAccount;
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;
