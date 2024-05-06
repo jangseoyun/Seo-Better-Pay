@@ -1,6 +1,6 @@
 package com.yun.membership.adapter.out.persistence;
 
-import com.yun.common.PersistenceAdapter;
+import com.yun.common.anotation.PersistenceAdapter;
 import com.yun.membership.application.port.out.ModifyMembershipPort;
 import com.yun.membership.application.port.out.ReadMembershipPort;
 import com.yun.membership.application.port.out.RegisterMembershipPort;

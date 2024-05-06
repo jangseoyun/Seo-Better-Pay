@@ -1,6 +1,6 @@
 package com.yun.membership.adapter.in.web;
 
-import com.yun.common.WebAdapter;
+import com.yun.common.anotation.WebAdapter;
 import com.yun.membership.adapter.in.web.model.MembershipResult;
 import com.yun.membership.adapter.in.web.model.request.LoginMembershipRequest;
 import com.yun.membership.application.port.in.LoginMembershipUseCase;
@@ -8,7 +8,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
