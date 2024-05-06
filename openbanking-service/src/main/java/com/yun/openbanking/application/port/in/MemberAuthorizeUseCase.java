@@ -1,5 +1,7 @@
 package com.yun.openbanking.application.port.in;
 
+import org.springframework.http.ResponseEntity;
+
 public interface MemberAuthorizeUseCase {
-    void requestAuthorizeMember(MemberAuthorizeCommand command);
+    ResponseEntity request3AuthorizeMember(MemberOAuth3LeggedCommand command);
 }

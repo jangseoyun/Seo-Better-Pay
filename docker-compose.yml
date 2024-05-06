@@ -147,6 +147,7 @@ services:
       - TASK_RESULT_TOPIC=seobetterpay.task.result.topic
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
       - SERVICE_BANKING_URL=http://banking-service:8080
+      - SERVICE_OPENBANKING_URL=http://openbanking-service:8080
 
   wiretransfer-service:
     image: seo-better-pay-wiretransfer-service:0.0.1-SNAPSHOT
@@ -174,6 +175,27 @@ services:
       - SERVICE_MEMBERSHIP_URL=http://membership-service:8080
       - SERVICE_BANKING_URL=http://banking-service:8080
       - SERVICE_MONEY_URL=http://money-service:8080
+
+  openbanking-service:
+    image: seo-better-pay-openbanking-service:0.0.1-SNAPSHOT
+    networks:
+      - seobetter_network
+    ports:
+      - "8085:8080"
+    restart: always
+    depends_on:
+      - kafka
+      - axon-server
+    environment:
+      - AXON_AXONSERVER_SERVERS=axon-server:8124
+      - AXON_SERIALIZER_EVENTS=jackson
+      - AXON_SERIALIZER_MESSAGES=jackson
+      - AXON_SERIALIZER_GENERAL=xstream
+      - KAFKA_CLUSTERS_BOOTSTRAPSERVERS=kafka:29092
+      - LOGGING_TOPIC=seobetterpay.logging.out.stdout
+      - OPEN-BANKING_TEST_URL=https://testapi.openbanking.or.kr
+      - OPEN-BANKING_TEST_CLIENT_ID=${OPENBANKING_CLIENT_ID}
+      - OPEN-BANKING_TEST_CLIENT_SECRET=${OPENBANKING_CLIENT_SECRET}
 
   logging-service:
     image: seo-better-pay-logging-service:0.0.1-SNAPSHOT
