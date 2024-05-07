@@ -14,25 +14,26 @@ public class MembershipMapper {
                 new MembershipName(membershipEntity.getName()),
                 new MembershipEmail(membershipEntity.getMembershipEmail()),
                 new MembershipAddress(membershipEntity.getAddress()),
+                new MembershipRefreshToken(membershipEntity.getRefreshToken()),
                 new MembershipIsValid(membershipEntity.isValid()),
                 new RegisterCreatedAt(membershipEntity.getCreatedAt()),
                 new InfoModifiedAt(membershipEntity.getModifiedAt())
         );
     }
 
-    public MembershipEntity mapToEntity(Membership membership) {
-        return MembershipEntity.of(
-                        membership.getMembershipId(),
-                        membership.getMembershipPw(),
-                        membership.getMembershipEmail(),
-                        membership.getName(),
-                        membership.getAddress(),
-                        true,
-                        true,
-                        membership.getCreatedAt(),
-                        membership.getModifiedAt(),
-                        null
-        );
+    public MembershipEntity mapToEntity(Membership membership, String encryptEmail) {
+        return MembershipEntity.builder()
+                .membershipId(membership.getMembershipId())
+                .membershipPw(membership.getMembershipPw())
+                .membershipEmail(encryptEmail)
+                .name(membership.getName())
+                .address(membership.getAddress())
+                .refreshToken(membership.getRefreshToken())
+                .isMoneyWalletAvailable(false)
+                .createdAt(membership.getCreatedAt())
+                .modifiedAt(membership.getModifiedAt())
+                .deletedAt(null)
+                .build();
     }
 
 }

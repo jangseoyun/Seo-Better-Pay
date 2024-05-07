@@ -1,9 +1,13 @@
 package com.yun.membership.adapter.in.web;
 
 import com.yun.common.anotation.WebAdapter;
+import com.yun.membership.adapter.in.web.factory.MembershipFactory;
 import com.yun.membership.adapter.in.web.model.MembershipResult;
+import com.yun.membership.adapter.in.web.model.request.JwtTokenValidationRequest;
 import com.yun.membership.adapter.in.web.model.request.LoginMembershipRequest;
+import com.yun.membership.adapter.in.web.model.request.MembershipRefreshTokenRequest;
 import com.yun.membership.application.port.in.LoginMembershipUseCase;
+import com.yun.membership.jwt.JwtToken;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +27,23 @@ public class LoginMembershipController {
     private final LoginMembershipUseCase loginMembershipUseCase;
 
     @PostMapping("/login")
-    public ResponseEntity membershipAccessLogin(@RequestBody @Valid LoginMembershipRequest request) {
+    public ResponseEntity<MembershipResult> membershipAccessLogin(@RequestBody @Valid LoginMembershipRequest request) {
         log.info("request = /membership/login | LoginMembershipRequest: {}", request);
         MembershipResult membershipResult = loginMembershipUseCase.requestLogin(request.toCommand());
+        return ResponseEntity.ok().body(membershipResult);
+    }
+
+    @PostMapping("/refresh-token")
+    public ResponseEntity<MembershipResult> membershipAccessRefreshToken(@RequestBody @Valid MembershipRefreshTokenRequest request) {
+        log.info("request = /membership/refresh-token | MembershipRefreshTokenRequest: {}", request);
+        MembershipResult membershipResult = loginMembershipUseCase.requestRefreshToken(MembershipFactory.newRefreshTokenCommand(request));
+        return ResponseEntity.ok().body(membershipResult);
+    }
+
+    @PostMapping("/token-validate")
+    public ResponseEntity<MembershipResult> tokenExpireCheck(@RequestBody @Valid JwtTokenValidationRequest request) {
+        log.info("request = /membership/token-validate | JwtTokenValidationRequest: {}", request);
+        MembershipResult membershipResult = loginMembershipUseCase.requestTokenValidation(MembershipFactory.newTokenValidationCommand(request));
         return ResponseEntity.ok().body(membershipResult);
     }
 

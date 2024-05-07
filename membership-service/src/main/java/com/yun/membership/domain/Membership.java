@@ -15,6 +15,7 @@ public class Membership {
     private String membershipEmail;
     private String name;
     private String address;
+    private String refreshToken;
     private boolean isValid;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
@@ -24,6 +25,7 @@ public class Membership {
                                               MembershipName membershipName,
                                               MembershipEmail membershipEmail,
                                               MembershipAddress membershipAddress,
+                                              MembershipRefreshToken membershipRefreshToken,
                                               MembershipIsValid membershipIsValid) {
         return new Membership(
                 membershipId.id,
@@ -31,6 +33,7 @@ public class Membership {
                 membershipName.name,
                 membershipEmail.email,
                 membershipAddress.address,
+                membershipRefreshToken.refreshToken,
                 membershipIsValid.isValid,
                 LocalDateTime.now(),
                 LocalDateTime.now());
@@ -41,6 +44,7 @@ public class Membership {
                                                MembershipName membershipName,
                                                MembershipEmail membershipEmail,
                                                MembershipAddress membershipAddress,
+                                               MembershipRefreshToken membershipRefreshToken,
                                                MembershipIsValid membershipIsValid,
                                                RegisterCreatedAt registerCreatedAt,
                                                InfoModifiedAt infoModifiedAt) {
@@ -50,6 +54,7 @@ public class Membership {
                 membershipName.name,
                 membershipEmail.email,
                 membershipAddress.address,
+                membershipRefreshToken.refreshToken,
                 membershipIsValid.isValid,
                 registerCreatedAt.createdAt,
                 infoModifiedAt.modifiedAt);
@@ -98,6 +103,14 @@ public class Membership {
         public MembershipAddress(String value) {
             this.address = value;
         }
+    }
+
+    @Value
+    public static class MembershipRefreshToken {
+        public MembershipRefreshToken(String value) {
+            this.refreshToken = value;
+        }
+        String refreshToken ;
     }
 
     @Value

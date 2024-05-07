@@ -3,7 +3,6 @@ package com.yun.membership.application.port.in;
 import com.yun.common.SelfValidating;
 import com.yun.membership.adapter.in.web.model.request.RegisterMembershipRequest;
 import com.yun.membership.domain.Membership;
-import jakarta.validation.constraints.*;
 import lombok.EqualsAndHashCode;
 
 /**
@@ -19,6 +18,7 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
     private final String membershipEmail;
     private final String name;
     private final String address;
+    private final String refreshToken;
     private final boolean isValid;
 
     private RegisterMembershipCommand(String membershipId,
@@ -26,12 +26,14 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
                                      String membershipEmail,
                                      String name,
                                      String address,
+                                     String refreshToken,
                                      boolean isValid) {
         this.membershipId = membershipId;
         this.membershipPw = membershipPw;
         this.membershipEmail = membershipEmail;
         this.name = name;
         this.address = address;
+        this.refreshToken = refreshToken;
         this.isValid = isValid;
         this.validateSelf();
     }
@@ -41,8 +43,9 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
                                      String membershipEmail,
                                      String name,
                                      String address,
+                                     String refreshToken,
                                      boolean isValid) {
-        return new RegisterMembershipCommand(membershipId, membershipPw, membershipEmail, name, address, isValid);
+        return new RegisterMembershipCommand(membershipId, membershipPw, membershipEmail, name, address, refreshToken, isValid);
     }
 
     public Membership toMembership() {
@@ -52,6 +55,7 @@ public class RegisterMembershipCommand extends SelfValidating<RegisterMembership
                 new Membership.MembershipName(name),
                 new Membership.MembershipEmail(membershipEmail),
                 new Membership.MembershipAddress(address),
+                new Membership.MembershipRefreshToken(refreshToken),
                 new Membership.MembershipIsValid(isValid)
         );
     }
