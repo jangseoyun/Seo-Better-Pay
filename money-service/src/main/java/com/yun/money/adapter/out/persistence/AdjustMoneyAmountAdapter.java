@@ -68,6 +68,13 @@ public class AdjustMoneyAmountAdapter implements IncreaseMoneyAmountPort, Decrea
     }
 
     @Override
+    public List<MemberMoneyWallet> findMemberMoneyListByMembershipIds(List<String> membershipIds) {
+        return memberMoneyWalletJpaRepository.findByMembershipIdList(membershipIds).stream()
+                .map(wallet -> memberMoneyWalletMapper.mapToMemberMoneyWallet(wallet))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PayWalletMoney increaseMoneyAmount(PayWalletMoney payWalletMoney) {
         log.info("increaseMoneyAmount payWalletMoney: {}", payWalletMoney);
 

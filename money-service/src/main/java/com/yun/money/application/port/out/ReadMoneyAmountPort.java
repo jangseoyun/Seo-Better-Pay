@@ -12,4 +12,5 @@ public interface ReadMoneyAmountPort {
     List<PayWalletMoney> getPayMoneyHistory(String membershipId);
     MemberMoneyWallet getMemberMoneyWallet(String membershipId);
     void addMoneyToSeobetterpayByEvent(RechargeMoneyAmountCommand command);
+    List<MemberMoneyWallet> findMemberMoneyListByMembershipIds(List<String> membershipIds);
 }
