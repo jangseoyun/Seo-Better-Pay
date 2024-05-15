@@ -2,6 +2,9 @@ package com.yun.money.application.port.out;
 
 import com.yun.money.adapter.out.service.membership.MembershipServiceStatus;
 
+import java.util.List;
+
 public interface GetMembershipForMoneyPort {
-    public MembershipServiceStatus getMembership(String membershipId);
+    MembershipServiceStatus getMembership(String membershipId);
+    List<String> getMembershipByAddress(String addressKeyword);
 }

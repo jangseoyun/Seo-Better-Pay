@@ -22,6 +22,7 @@ public class CreateMoneyWalletService implements MoneyWalletCreateUseCase {
 
     @Override
     public void createMemberMoneyWallet(CreateMemberMoneyCommand command) {
+        //TODO: membership 테이블 is_wallet_available 컬럼 true 변경
         MemberMoneyCreateCommand axonCommand = new MemberMoneyCreateCommand(command.getMembershipId());
         commandGateway.send(axonCommand).whenComplete((result, throwable) -> {
             if (throwable != null) {
