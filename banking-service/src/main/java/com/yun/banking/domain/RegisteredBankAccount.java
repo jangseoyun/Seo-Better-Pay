@@ -11,6 +11,7 @@ import lombok.*;
  * user_ci : CI connect info
  * scope : 단일 scope만 가능 (조회, 출금)
  */
+@ToString
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class RegisteredBankAccount {

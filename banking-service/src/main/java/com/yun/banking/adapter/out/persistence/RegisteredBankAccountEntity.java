@@ -10,7 +10,7 @@ import java.util.Objects;
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "t_register_bank_account")
-public class RegisteredBankAccountEntity {
+public class  RegisteredBankAccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "registered_bank_account_id")

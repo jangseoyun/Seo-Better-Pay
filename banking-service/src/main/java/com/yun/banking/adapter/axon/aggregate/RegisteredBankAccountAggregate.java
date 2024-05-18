@@ -1,3 +1,4 @@
+/*
 package com.yun.banking.adapter.axon.aggregate;
 
 import com.yun.banking.adapter.axon.command.CheckRegisteredBankAccountCommand;
@@ -80,3 +81,4 @@ public class RegisteredBankAccountAggregate {
         bankAccountNumber = event.getBankAccountNumber();
     }
 }
+*/

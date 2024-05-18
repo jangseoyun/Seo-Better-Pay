@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class RegisterBankAccountCommand extends SelfValidating<RegisterBankAccountRequest> {
 
     private String membershipId;

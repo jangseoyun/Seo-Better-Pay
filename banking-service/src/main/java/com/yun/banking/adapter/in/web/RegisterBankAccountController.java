@@ -25,6 +25,7 @@ public class RegisterBankAccountController {
     @PostMapping("/register")
     public ResponseEntity registerBankAccount(@RequestBody RegisterBankAccountRequest request) {
         //TODO: 계좌실명조회 api 기능 고도화
+        log.info("RegisterBankAccountRequest : {}", request);
         RegisteredBankAccount registeredBankAccount = registerBankAccountUseCase.registerBankAccountByMembership(RegisterBankAccountFactory.newInstance(request));
         return ResponseEntity.ok().body(registeredBankAccount);
     }
