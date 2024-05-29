@@ -8,7 +8,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ReadBankAccountCommand extends SelfValidating<SearchBankAccountRequest> {
     @NotNull
     @NotBlank
