@@ -27,6 +27,13 @@ public class FindWireTransferController {
     @GetMapping("/{from-membership-id}")
     public ResponseEntity findWireTransferHistory(@PathVariable("from-membership-id") String fromMembershipId,
                                                   @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        try {
+            //문제 상황 발생
+            Thread.sleep(20000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
         Page<WireTransfer> wireTransferPage = findWireTransferUseCase.findWireTransferHistory(fromMembershipId, pageable);
         return ResponseEntity.ok().body(wireTransferPage);
     }

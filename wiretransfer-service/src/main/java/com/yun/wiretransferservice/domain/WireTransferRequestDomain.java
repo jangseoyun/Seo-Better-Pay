@@ -2,10 +2,7 @@ package com.yun.wiretransferservice.domain;
 
 import com.yun.wiretransferservice.adapter.in.web.model.WireTransferType;
 import jakarta.persistence.criteria.From;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -13,6 +10,7 @@ import java.util.UUID;
  * 송금 요청건에 대한 상태 정보
  */
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WireTransferRequestDomain {
 

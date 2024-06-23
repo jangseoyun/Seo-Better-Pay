@@ -1,14 +1,12 @@
 package com.yun.wiretransferservice.domain;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
 /**
  * 송금 완료건에 대한 정보
  */
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class WireTransfer {
 

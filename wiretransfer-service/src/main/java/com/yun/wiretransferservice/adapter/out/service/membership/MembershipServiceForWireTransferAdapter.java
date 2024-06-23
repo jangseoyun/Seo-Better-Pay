@@ -1,9 +1,9 @@
 package com.yun.wiretransferservice.adapter.out.service.membership;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yun.common.anotation.ExternalSystemAdapter;
 import com.yun.common.httpclient.CommonRestClient;
-import com.yun.wiretransferservice.application.port.out.membership.MembershipForWireTransfer;
 import com.yun.wiretransferservice.application.port.out.membership.MembershipForWireTransferPort;
 import com.yun.wiretransferservice.application.port.out.membership.MembershipStatus;
 import lombok.RequiredArgsConstructor;
@@ -22,12 +22,12 @@ public class MembershipServiceForWireTransferAdapter implements MembershipForWir
     public MembershipStatus getMembershipStatus(String membershipId) {
         String buildUrl = String.join("/", this.membershipServiceEndPoint, "membership", membershipId);
         try {
-            String jsonResponse = membershipHttpClient.sendGetRequest(buildUrl).getBody().toString();
-            MembershipForWireTransfer membership = objectMapper.readValue(jsonResponse, MembershipForWireTransfer.class);
-            if (membership.isValid()) {
-                return new MembershipStatus(membership.getMembershipId(), true);
+            String jsonString = membershipHttpClient.sendGetRequest(buildUrl);
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+            if (jsonNode.get("valid").textValue().equals("true")) {
+                return new MembershipStatus(membershipId, true);
             } else {
-                return new MembershipStatus(membership.getMembershipId(), false);
+                return new MembershipStatus(membershipId, false);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
