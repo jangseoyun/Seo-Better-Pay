@@ -1,6 +1,5 @@
 package com.yun.openbanking.adapter.out.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yun.common.OpenbankingTestUrl;
 import com.yun.common.anotation.ExternalSystemAdapter;
 import com.yun.common.httpclient.CommonRestClient;
