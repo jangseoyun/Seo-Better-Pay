@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class ProcessingTransferFirmBankingCommand extends SelfValidating<ProcessingTransferFirmBankingRequest> {
     @NotNull
     @NotEmpty

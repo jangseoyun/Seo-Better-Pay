@@ -13,7 +13,7 @@ import lombok.Getter;
 import static com.yun.banking.domain.TransferFirmBanking.*;
 
 @Getter
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class TransferFirmBankingCommand extends SelfValidating<TransferFirmBankingRequest> {
     @NotNull
     @NotEmpty

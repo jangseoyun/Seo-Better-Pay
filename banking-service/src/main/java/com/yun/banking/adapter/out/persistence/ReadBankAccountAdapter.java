@@ -19,7 +19,7 @@ public class ReadBankAccountAdapter implements ReadBankAccountPort {
     public List<RegisteredBankAccount> getLinkedBankAccounts(String membershipId) {
         return registeredBankAccountJpaRepository.getLinkedBankAccount(membershipId)
                 .stream()
-                .map(account -> mapper.mapToDomainEntity(account))
+                .map(account -> mapper.of(account))
                 .collect(Collectors.toList());
     }
 }
