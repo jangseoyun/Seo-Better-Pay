@@ -14,11 +14,13 @@ import com.yun.wiretransferservice.application.port.out.money.MoneyInfo;
 import com.yun.wiretransferservice.domain.WireTransfer;
 import com.yun.wiretransferservice.domain.WireTransferRequestDomain;
 import com.yun.wiretransferservice.domain.WireTransferRequestStatus;
+import lombok.EqualsAndHashCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j
+@EqualsAndHashCode
 @UseCase
 @RequiredArgsConstructor
 @Transactional
@@ -37,7 +39,7 @@ public class WireTransferService implements WireTransferUseCase {
 
         //1. from member 확인 (membership svc)
         MembershipStatus membershipStatus = membershipForWireTransferPort.getMembershipStatus(command.getFromMembershipId());
-        if (membershipStatus.isValid()) {
+        if (!membershipStatus.isValid()) {
             return null;
         }
 

@@ -1,33 +1,33 @@
 package com.yun.common.httpclient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatusCode;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import java.io.IOException;
-import java.net.URI;
 
 import static org.springframework.http.MediaType.APPLICATION_JSON;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class CommonRestClient {
 
     private final RestClient restClient;
 
-    public ResponseEntity sendGetRequest(String url) {
+    public String sendGetRequest(String url) {
+        log.info("common url : {}", url);
         return restClient
                 .get()
                 .uri(url)
-                .accept(APPLICATION_JSON)
                 .retrieve()
                 .onStatus(HttpStatusCode::is4xxClientError, ((request, response) -> {
-                    throw new RuntimeException("sendGetRequest exception");
+                    throw new RuntimeException("sendGetRequest exception: " + response.getBody());
                 }))
-                .toEntity(String.class);
+                .body(String.class);
     }
 
     public <T> ResponseEntity sendPostRequest(String url, T body) {
