@@ -1,6 +1,7 @@
 package com.yun.money.adapter.out.service.banking;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yun.common.httpclient.CommonRestClient;
 import com.yun.money.application.port.out.banking.BankingForMoneyPort;
@@ -41,15 +42,18 @@ public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetReg
         log.info("url: {}", url);
 
         try {
-            String jsonResponse = bankingHttpClient.sendGetRequest(url).toString();
-            RegisteredBankAccount registeredBankAccount = objectMapper.readValue(jsonResponse, RegisteredBankAccount.class);
+            String jsonString = bankingHttpClient.sendGetRequest(url);
+            JsonNode jsonNode = objectMapper.readTree(jsonString);
+            log.info("jsonNode: {}", jsonNode);
+            JsonNode jsonResult = jsonNode.get(0);
+            log.info("jsonResult: {}", jsonResult);
 
             return new RegisteredBankAccountAggregateIdentifier(
-                    registeredBankAccount.increaseRequestId(),
-                    registeredBankAccount.membershipId(),
-                    registeredBankAccount.registeredBankAccountAggregateIdentifier(),
-                    registeredBankAccount.bankName(),
-                    registeredBankAccount.bankAccountNumber());
+                    jsonResult.get("registeredBankAccountId").textValue(),
+                    jsonResult.get("membershipId").textValue(),
+                    jsonResult.get("aggregateIdentifier").textValue(),
+                    jsonResult.get("bankCodeStd").textValue(),
+                    jsonResult.get("registerAccountNum").textValue());
 
         } catch (Exception e) {
             throw new RuntimeException(e);
