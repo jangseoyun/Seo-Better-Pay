@@ -18,7 +18,7 @@ public class RegisteredBankAccountAdapter implements RegisterBankAccountPort {
                 mapper.toEntity(registeredBankAccount)
         );
 
-        return mapper.mapToDomainEntity(bankAccountEntity);
+        return mapper.of(bankAccountEntity);
     }
 
 }

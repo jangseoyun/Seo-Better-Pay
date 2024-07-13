@@ -20,4 +20,8 @@ public class RegisterBankServiceFactory {
                 new RegisteredBankAccount.RegisteredAggregateIdentifier("")
         );
     }
+
+    public static RegisteredBankAccount.RegisterAccountNum newRegisterAccountNum(String registerBankAccountNumber) {
+        return new RegisteredBankAccount.RegisterAccountNum(registerBankAccountNumber);
+    }
 }

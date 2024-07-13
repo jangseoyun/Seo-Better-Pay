@@ -5,7 +5,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RegisteredBankAccountMapper {
-    public RegisteredBankAccount mapToDomainEntity(RegisteredBankAccountEntity registeredBankAccount) {
+    public RegisteredBankAccount of(RegisteredBankAccountEntity registeredBankAccount) {
         return RegisteredBankAccount.generateBankAccount(
                 new RegisteredBankAccount.BankAccountId(registeredBankAccount.getId()+""),
                 new RegisteredBankAccount.MembershipId(registeredBankAccount.getMembershipId()),
@@ -22,7 +22,6 @@ public class RegisteredBankAccountMapper {
 
     public RegisteredBankAccountEntity toEntity(RegisteredBankAccount registeredBankAccount) {
         return RegisteredBankAccountEntity.builder()
-                .id(null)
                 .membershipId(registeredBankAccount.getMembershipId())
                 .bankAccountCode(registeredBankAccount.getBankCodeStd())
                 .bankAccountNumber(registeredBankAccount.getRegisterAccountNum())
