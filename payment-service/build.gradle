@@ -1,0 +1,78 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.palantir.docker" version "0.36.0"
+}
+
+ext{
+	axonVersion = "4.9.1"
+}
+
+compileJava {
+	sourceCompatibility = '17'
+}
+
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.yun.payment'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.jetbrains:annotations:24.0.1'
+	implementation project(':common')
+	implementation project(':logging-service')
+
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+// 테스트 코드를 제외한 빌드 수행
+tasks.withType(Test) {
+	enabled = false
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+docker {
+	println(tasks.bootJar.outputs.files)
+	//이미지 이름
+	name rootProject.name + '-' + project.name + ":" + version
+	//어떤 dockerFile
+	dockerfile file('../Dockerfile')
+	//어떤 파일들을 dockerfile에 복사할 것인가
+	files tasks.bootJar.outputs.files
+	//docker에 전달할 인자
+	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}
