@@ -12,7 +12,6 @@ import java.util.Objects;
 @Getter
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
 @Table(name = "t_membership",
         indexes = {
                 @Index(columnList = "membershipId"),
@@ -30,6 +29,8 @@ public class MembershipEntity {
     private String name;
     @Column(name = "address", length = 150)
     private String address;
+    @Column(name = "refresh_token")
+    private String refreshToken;
     @Column(name = "is_valid")
     private boolean isValid;
     @Column(name = "is_wallet_available")
@@ -45,26 +46,42 @@ public class MembershipEntity {
     @Column(name = "deleted_at", updatable = false)
     private LocalDateTime deletedAt;
 
-    public static MembershipEntity of(String membershipId,
+    @Builder
+    public MembershipEntity(String membershipId,
                             String membershipPw,
                             String membershipEmail,
                             String name,
                             String address,
+                            String refreshToken,
                             boolean isValid,
                             boolean isMoneyWalletAvailable,
                             LocalDateTime createdAt,
                             LocalDateTime modifiedAt,
                             LocalDateTime deletedAt) {
-        return new MembershipEntity(membershipId, membershipPw, membershipEmail, name, address, isValid, isMoneyWalletAvailable, createdAt, modifiedAt, deletedAt);
+        this.membershipId = membershipId;
+        this.membershipPw = membershipPw;
+        this.membershipEmail = membershipEmail;
+        this.name = name;
+        this.address = address;
+        this.refreshToken = refreshToken;
+        this.isValid = isValid;
+        this.isMoneyWalletAvailable = isMoneyWalletAvailable;
+        this.createdAt = createdAt;
+        this.modifiedAt = modifiedAt;
+        this.deletedAt = deletedAt;
     }
 
     public void updateMembershipInfo(String membershipId, String address) {
-        if (membershipId == null || !membershipId.isBlank()) {
+        if (membershipId != null || !membershipId.isBlank()) {
             this.membershipId = membershipId;
         }
-        if (address == null || !address.isBlank()) {
+        if (address != null || !address.isBlank()) {
             this.address = address;
         }
+    }
+
+    public void insertRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 
     @Override

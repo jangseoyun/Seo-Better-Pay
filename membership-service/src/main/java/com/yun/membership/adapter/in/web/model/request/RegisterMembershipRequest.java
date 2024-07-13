@@ -30,6 +30,7 @@ public record RegisterMembershipRequest(
                 this.membershipEmail,
                 this.name,
                 this.address,
+                "",
                 false
         );
     }
