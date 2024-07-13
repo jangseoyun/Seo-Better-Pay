@@ -51,7 +51,7 @@ public class RechargeMoneyService implements RechargeMoneyUseCase {
         //1-2 TODO: 페이 법인 계좌 상태 정상 여부 체크 및 입출금 가능 여부 체크(외부 API)
         //2. TODO: openbanking request 생성
         PrepareMoneyTransferRequest prepareMoneyTransferRequest = OpenbankingModelFactory.newInstance(command);
-        openbankingForMoneyPort.requestOpenbankingService(prepareMoneyTransferRequest);
+        //openbankingForMoneyPort.requestOpenbankingService(prepareMoneyTransferRequest);
 
         return payWalletMoney;
         //3. TODO: openbanking-service 모듈로 요청 / 펌뱅킹 (고객의 연동된 계좌 -> 법인 계좌) 계좌이체

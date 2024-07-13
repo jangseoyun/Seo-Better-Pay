@@ -4,6 +4,7 @@ import com.yun.common.SelfValidating;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.axonframework.modelling.command.TargetAggregateIdentifier;
 
 @Getter
 @ToString
@@ -12,6 +13,7 @@ import lombok.*;
 public class MemberMoneyCreateCommand extends SelfValidating<MemberMoneyCreateCommand> {
     @NotNull
     @NotEmpty
+    @TargetAggregateIdentifier
     private String membershipId;
 
     public MemberMoneyCreateCommand(String membershipId) {

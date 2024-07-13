@@ -2,16 +2,14 @@ package com.yun.money.domain;
 
 import com.yun.money.adapter.in.web.model.MoneyAdjustingResultStatus;
 import com.yun.money.adapter.in.web.model.MoneyAdjustingType;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Value;
+import lombok.*;
 
+@ToString
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PayWalletMoney {
 
-    private final String moneyIncreaseRequestId;
+    private final String moneyAdjustRequestId;
     private final String membershipId;
     private final String memberName;
     private final MoneyAdjustingType moneyAdjustingType;
@@ -21,14 +19,14 @@ public class PayWalletMoney {
     private String linkedBankCode;
     private String linkedBankAccountNumber;
 
-    private PayWalletMoney(String moneyIncreaseRequestId,
+    private PayWalletMoney(String moneyAdjustRequestId,
                            String membershipId,
                            String memberName,
                            MoneyAdjustingType moneyAdjustingType,
                            boolean linkedStatusIsValid,
                            Integer adjustAmount,
                            MoneyAdjustingResultStatus moneyChangingResultStatus) {
-        this.moneyIncreaseRequestId = moneyIncreaseRequestId;
+        this.moneyAdjustRequestId = moneyAdjustRequestId;
         this.membershipId = membershipId;
         this.memberName = memberName;
         this.moneyAdjustingType = moneyAdjustingType;

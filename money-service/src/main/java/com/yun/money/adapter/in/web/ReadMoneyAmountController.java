@@ -1,16 +1,16 @@
 package com.yun.money.adapter.in.web;
 
 import com.yun.common.anotation.WebAdapter;
+import com.yun.money.adapter.in.web.factory.MembershipMoneyFactory;
 import com.yun.money.adapter.in.web.model.MembershipIdRequest;
+import com.yun.money.adapter.in.web.model.MembershipListRequest;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
+import com.yun.money.domain.MemberMoneyWallet;
 import com.yun.money.domain.PayWalletMoney;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,5 +44,14 @@ public class ReadMoneyAmountController{
     public ResponseEntity getPayMoneyHistory(@PathVariable("membershipId") MembershipIdRequest membershipId) {
         List<PayWalletMoney> payMoneyHistory = readMoneyAmountUseCase.getPayMoneyHistory(membershipId.toCommand());
         return ResponseEntity.ok().body(payMoneyHistory);
+    }
+
+    @PostMapping("/membership")
+    public ResponseEntity getMembershipMoneyListByIds(@RequestBody MembershipListRequest membershipListRequest) {
+        List<MemberMoneyWallet> membershipMoneyList = readMoneyAmountUseCase.getMembershipMoneyListById(
+                MembershipMoneyFactory.newMembershipIdListCommand(membershipListRequest)
+        );
+        log.info("getMembershipMoneyListByIds response: {}", membershipMoneyList);
+        return ResponseEntity.ok().body(membershipMoneyList);
     }
 }

@@ -2,6 +2,7 @@ package com.yun.money.application.service;
 
 import com.yun.common.anotation.UseCase;
 import com.yun.money.application.port.in.MembershipIdCommand;
+import com.yun.money.application.port.in.MembershipMoneyCommand;
 import com.yun.money.application.port.in.ReadMoneyAmountUseCase;
 import com.yun.money.application.port.out.ReadMoneyAmountPort;
 import com.yun.money.domain.MemberMoneyWallet;
@@ -40,5 +41,11 @@ public class ReadMoneyAmountService implements ReadMoneyAmountUseCase {
     @Override
     public MemberMoneyWallet getMemberMoneyWallet(MembershipIdCommand command) {
         return readMoneyAmountPort.getMemberMoneyWallet(command.getMembershipId());
+    }
+
+    @Override
+    public List<MemberMoneyWallet> getMembershipMoneyListById(MembershipMoneyCommand membershipMoneyCommand) {
+        //membership List를 기준으로 member money 정보를 가져와야한다.
+        return readMoneyAmountPort.findMemberMoneyListByMembershipIds(membershipMoneyCommand.getMembershipIds());
     }
 }

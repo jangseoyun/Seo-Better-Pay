@@ -10,4 +10,5 @@ public interface ReadMoneyAmountUseCase {
     List<PayWalletMoney> getAddMoneyHistory(MembershipIdCommand command);
     List<PayWalletMoney> getPayMoneyHistory(MembershipIdCommand command);
     MemberMoneyWallet getMemberMoneyWallet(MembershipIdCommand command);
+    List<MemberMoneyWallet> getMembershipMoneyListById(MembershipMoneyCommand membershipMoneyCommand);
 }
