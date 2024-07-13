@@ -61,7 +61,8 @@ class RegisterMembershipControllerTest {
                 "seoseo",
                 "addresstesttest",
                 "seoseo@email.com",
-                false
+                "name",
+                ""
         );
     }
 }
