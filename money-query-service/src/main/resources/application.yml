@@ -1,0 +1,6 @@
+money:
+  query:
+    table: ${TABLE_NAME}
+  dynamo:
+    access: ${ACCESS_KEY}
+    secret: ${SECRET_KEY}
