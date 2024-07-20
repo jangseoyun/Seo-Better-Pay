@@ -1,38 +1,61 @@
 package com.yun.preapisecure.configuration;
 
+import com.yun.preapisecure.dsl.RestApiDsl;
+import com.yun.preapisecure.handler.RestAccessDeniedHandler;
+import com.yun.preapisecure.handler.RestAuthenticationEntryPoint;
+import com.yun.preapisecure.handler.RestAuthenticationFailureHandler;
+import com.yun.preapisecure.handler.RestAuthenticationSuccessHandler;
+import com.yun.preapisecure.provider.RestAuthenticationProvider;
+import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 
 @EnableWebSecurity
 @Configuration
+@RequiredArgsConstructor
 public class SecurityConfig {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SecurityConfig.class);
+
+    private final RestAuthenticationProvider restAuthenticationProvider;
+    private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
+    private final RestAuthenticationFailureHandler restAuthenticationFailureHandler;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-            .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-            .formLogin(Customizer.withDefaults());
-        return http.build();
+    @Order(1)
+    public SecurityFilterChain restFilterChain(HttpSecurity httpSecurity) throws Exception {
+        AuthenticationManagerBuilder managerBuilder = httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
+        managerBuilder.authenticationProvider(restAuthenticationProvider);
+        AuthenticationManager authenticationManager = managerBuilder.build();
+
+        httpSecurity
+                .securityMatchers(matcher ->
+                        matcher.requestMatchers("/api/v1/**")
+                )
+                .authorizeHttpRequests(requestAuth -> requestAuth
+                        .requestMatchers("/css/**", "/images/**", "/js/**", "/webjars/**", "/favicon.*", "/*/icon-*").permitAll()
+                        .requestMatchers("/auth/v1/pre").permitAll()
+                        //.requestMatchers("/api/v1/admin/**").hasAuthority("ROLE_ADMIN")
+                        .anyRequest().authenticated())
+                .authenticationManager(authenticationManager)
+                .with(new RestApiDsl<>(), restDsl -> restDsl
+                        .restSuccessHandler(restAuthenticationSuccessHandler)
+                        .restFailureHandler(restAuthenticationFailureHandler)
+                        .loginProcessingUrl("/api/v1/membership/login")
+                )
+                .exceptionHandling(exception -> exception
+                        .authenticationEntryPoint(new RestAuthenticationEntryPoint())
+                        .accessDeniedHandler(new RestAccessDeniedHandler())
+                );
+
+        return httpSecurity.build();
     }
-
-    //spring security User 사용자 정의 1. yml 파일 설정 / 2. User 설정 단 1번과 2번이 충돌할 경우 2번이 우선순위
-    @Bean
-    public UserDetailsService userDetailsService() {
-        UserDetails user = User.withUsername("user")
-                .password("{noop}1234")
-                .roles("USER")
-                .build();
-
-        return new InMemoryUserDetailsManager(user);
-    }
-
 
 }
