@@ -30,6 +30,7 @@ public class MembershipMapper {
                 .address(membership.getAddress())
                 .refreshToken(membership.getRefreshToken())
                 .isMoneyWalletAvailable(false)
+                .role(membership.getRole())
                 .createdAt(membership.getCreatedAt())
                 .modifiedAt(membership.getModifiedAt())
                 .deletedAt(null)

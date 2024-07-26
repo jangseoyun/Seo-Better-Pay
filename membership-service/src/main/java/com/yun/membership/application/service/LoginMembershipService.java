@@ -31,7 +31,6 @@ public class LoginMembershipService implements LoginMembershipUseCase {
     private final LoginInfoValidator loginInfoValidator;
     private final ModifyMembershipPort modifyMembershipPort;
 
-
     @Override
     @Transactional
     public MembershipResult requestLogin(LoginMembershipCommand command) {
