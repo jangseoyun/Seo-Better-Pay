@@ -1,0 +1,7 @@
+spring:
+  cloud:
+    config:
+      url: http://config-servic:8080
+      name: seobetterpay
+  profiles:
+    active: docker
