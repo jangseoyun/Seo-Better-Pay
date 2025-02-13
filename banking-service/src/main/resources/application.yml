@@ -1,3 +1,27 @@
 kafka:
   clusters:
     bootstrapservers: ${KAFKA_CLUSTERS_BOOTSTRAPSERVERS}
+
+springdoc:
+  api-docs:
+    path: /seobetterpay/v1/banking-docs #openAPI 문서 제공 기본 경로
+    groups:
+      enabled: true #여러 API 그룹 활성화 설정 여부
+  swagger-ui:
+    urls: # swagger ui에 여러 개의 문서 URL을 설정 url, name으로 구성
+      - url: /seobetterpay/v1/banking-docs/server
+        name: backend-server
+      - url: /seobetterpay/v1/banking-docs/internal
+        name: internal
+    path: /seobetterpay/v1/banking/swagger-ui #swagger ui 접근 경로
+    configUrl: /seobetterpay/v1/banking/swagger-config #swagger ui 설정 파일 경로
+    disable-swagger-default-url: true #기본 swagger ui URL 비활성화 (true = 비활성화)
+  group-configs: # 여러 API 그룹을 구성하여 특정 패키지의 API 포함되도록 설정
+    - group: back-end
+      packages-to-scan:
+        - com.yun.banking
+  info:
+    title: SeoBetterPay Banking Service API
+    description: API documentation for Sample Application
+    version: 1.0.0
+
