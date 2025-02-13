@@ -1,0 +1,68 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.3'
+	id 'io.spring.dependency-management' version '1.1.4'
+	id "com.palantir.docker" version "0.36.0"
+}
+
+compileJava {
+	sourceCompatibility = '17'
+}
+
+apply plugin: 'java'
+apply plugin: 'java-library'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+group = 'com.yun.apigateway'
+version = '0.0.1-SNAPSHOT'
+
+java {
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation project(':common')
+
+	// Spring Boot WebFlux + Gateway
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	//implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+	implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+// 테스트 코드를 제외한 빌드 수행
+tasks.withType(Test) {
+	enabled = false
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}
+
+docker {
+	println(tasks.bootJar.outputs.files)
+	//이미지 이름
+	name rootProject.name + '-' + project.name + ":" + version
+	//어떤 dockerFile
+	dockerfile file('../Dockerfile')
+	//어떤 파일들을 dockerfile에 복사할 것인가
+	files tasks.bootJar.outputs.files
+	//docker에 전달할 인자
+	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
+}
+
+dependencyManagement {
+	imports {
+		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2023.0.0'
+	}
+}
