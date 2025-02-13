@@ -36,7 +36,7 @@ public class PaymentController {
 
     //정상 결제 건들의 list를 얻어오기 위한 API 필요
     @GetMapping("/success-payment")
-    public ResponseEntity getSuccessPaymentList() {
+    public ResponseEntity<List<PaymentRequestInfo>> getSuccessPaymentList() {
         List<PaymentRequestInfo> successPaymentList = paymentCommandUseCase.getSuccessPaymentList();
         return ResponseEntity.ok().body(successPaymentList);
     }
