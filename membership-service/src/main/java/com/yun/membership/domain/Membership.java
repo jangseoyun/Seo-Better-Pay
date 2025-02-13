@@ -17,6 +17,7 @@ public class Membership {
     private String address;
     private String refreshToken;
     private boolean isValid;
+    private MembershipRole role;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
@@ -35,6 +36,7 @@ public class Membership {
                 membershipAddress.address,
                 membershipRefreshToken.refreshToken,
                 membershipIsValid.isValid,
+                MembershipRole.ROLE_USER,
                 LocalDateTime.now(),
                 LocalDateTime.now());
     }
@@ -56,6 +58,7 @@ public class Membership {
                 membershipAddress.address,
                 membershipRefreshToken.refreshToken,
                 membershipIsValid.isValid,
+                MembershipRole.ROLE_USER,
                 registerCreatedAt.createdAt,
                 infoModifiedAt.modifiedAt);
     }
@@ -119,6 +122,15 @@ public class Membership {
 
         public MembershipIsValid(boolean value) {
             this.isValid = value;
+        }
+    }
+
+    @Value
+    public static class MemberRole{
+        MembershipRole role;
+
+        public MemberRole(MembershipRole value) {
+            this.role = value;
         }
     }
 

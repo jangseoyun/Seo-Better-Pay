@@ -25,10 +25,11 @@ public class JwtTokenProvider implements LoginAuthTokenPort {
     private Long jwtExpirationInMs;
     private Long refreshTokenExpirationInMs;
 
-    public JwtTokenProvider(@Value("${service.jwt.secret-key}") String jwtSecretKey) {
+    public JwtTokenProvider(@Value("${service.jwt.secretkey}") String jwtSecretKey) {
         // 516 bit 알고리즘 지원을 위한 비밀키
         // 512 bit = 64byte
         //env 등을 통해서 외부 환경변수로부터 데이터를 받아올 수 있다
+        log.info("jwtSecretKey: {}", jwtSecretKey);
         this.jwtSecretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(jwtSecretKey));
         this.jwtExpirationInMs = 1000L * 20; //20초
         this.refreshTokenExpirationInMs = 1000L * 60; //60초
@@ -43,7 +44,7 @@ public class JwtTokenProvider implements LoginAuthTokenPort {
                 .subject(membershipId.getMembershipId())
                 .issuedAt(now)
                 .expiration(expiryDate)
-                .signWith(jwtSecretKey, Jwts.SIG.HS512)
+                .signWith(jwtSecretKey)
                 .compact();
     }
 

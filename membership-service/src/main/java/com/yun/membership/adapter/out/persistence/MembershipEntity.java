@@ -1,5 +1,6 @@
 package com.yun.membership.adapter.out.persistence;
 
+import com.yun.membership.domain.MembershipRole;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,6 +36,9 @@ public class MembershipEntity {
     private boolean isValid;
     @Column(name = "is_wallet_available")
     private boolean isMoneyWalletAvailable;
+    @Column(name = "role")
+    @Enumerated(EnumType.STRING)
+    private MembershipRole role;
 
     @CreatedDate
     @Column(name = "created_at", updatable = false)
@@ -55,6 +59,7 @@ public class MembershipEntity {
                             String refreshToken,
                             boolean isValid,
                             boolean isMoneyWalletAvailable,
+                            MembershipRole role,
                             LocalDateTime createdAt,
                             LocalDateTime modifiedAt,
                             LocalDateTime deletedAt) {
@@ -66,6 +71,7 @@ public class MembershipEntity {
         this.refreshToken = refreshToken;
         this.isValid = isValid;
         this.isMoneyWalletAvailable = isMoneyWalletAvailable;
+        this.role = role;
         this.createdAt = createdAt;
         this.modifiedAt = modifiedAt;
         this.deletedAt = deletedAt;
