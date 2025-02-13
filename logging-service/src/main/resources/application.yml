@@ -1,3 +1,31 @@
-kafka:
-  clusters:
-    bootstrapservers: ${KAFKA_CLUSTERS_BOOTSTRAPSERVERS}
+spring:
+  application:
+    name: logging-service
+
+  kafka:
+    clusters:
+    bootstrap-servers: ${KAFKA_CLUSTERS_BOOTSTRAPSERVERS}
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId:-},%X{spanId:-}]"
+    root: INFO
+    com.example: DEBUG
+  # Logstash 관련 설정 (필요 시)
+  logstash:
+    enabled: true
+
+# Tracing propagation type을 수정
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+    propagation:
+      consume: b3
+      produce: b3_multi
+  zipkin:
+    tracing:
+      endpoint: ""
