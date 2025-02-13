@@ -119,7 +119,7 @@ public class RechargeMoneyService implements RechargeMoneyUseCase {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-        //3-1. task-consumer
+        //3-1. task-consumer에서 수행
         //등록된 sub-task, status 모두 ok -> task 결과를 produce
 
         //4. task result consume
