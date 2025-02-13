@@ -8,15 +8,15 @@ compileJava {
     sourceCompatibility = '17'
 }
 
+repositories {
+    mavenCentral()
+}
+
 group = 'com.yun'
 version = '0.0.1-SNAPSHOT'
 
 java {
     sourceCompatibility = '17'
-}
-
-repositories {
-    mavenCentral()
 }
 
 dependencies {
