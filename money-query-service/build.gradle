@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id 'java-library'
     id 'org.springframework.boot' version '3.2.3'
     id 'io.spring.dependency-management' version '1.1.4'
     id "com.palantir.docker" version "0.36.0"
@@ -36,26 +37,26 @@ repositories {
 }
 
 dependencies {
+    implementation project(':common')
+    implementation project(':logging-service')
+
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.jetbrains:annotations:24.0.1'
     implementation 'org.springframework.kafka:spring-kafka'
     implementation group: 'org.axonframework', name: 'axon-configuration', version: "$axonVersion"
     implementation group: 'org.axonframework', name: 'axon-spring-boot-starter', version: "$axonVersion"
-    implementation project(':common')
-    implementation project(':logging-service')
 
-    compileOnly 'org.projectlombok:lombok'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.kafka:spring-kafka-test'
-    testImplementation 'org.axonframework:axon-test' // Axon 프레임워크 테스트 의존성
+    //testImplementation 'org.axonframework:axon-test' // Axon 프레임워크 테스트 의존성
     runtimeOnly 'com.mysql:mysql-connector-j'
 
     implementation 'org.json:json:20200518'
