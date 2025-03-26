@@ -2,7 +2,7 @@ package com.yun.money.adapter.out.service.openbanking;
 
 import com.yun.common.anotation.ExternalSystemAdapter;
 import com.yun.common.httpclient.CommonRestClient;
-import com.yun.money.application.port.out.openbanking.OpenbankingForMoneyPort;
+import com.yun.money.application.port.out.client.openbanking.OpenbankingForMoneyPort;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

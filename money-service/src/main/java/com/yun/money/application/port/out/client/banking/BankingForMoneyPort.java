@@ -1,4 +1,4 @@
-package com.yun.money.application.port.out.banking;
+package com.yun.money.application.port.out.client.banking;
 
 import com.yun.money.adapter.out.service.banking.BankAccountForMoney;
 

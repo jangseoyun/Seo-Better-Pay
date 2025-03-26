@@ -4,9 +4,10 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yun.common.httpclient.CommonRestClient;
-import com.yun.money.application.port.out.banking.BankingForMoneyPort;
-import com.yun.money.application.port.out.banking.GetRegisteredBankAccountPort;
-import com.yun.money.application.port.out.banking.RegisteredBankAccountAggregateIdentifier;
+import com.yun.money.application.port.out.client.banking.BankingForMoneyPort;
+import com.yun.money.application.port.out.client.banking.BankingServiceClient;
+import com.yun.money.application.port.out.client.banking.GetRegisteredBankAccountPort;
+import com.yun.money.application.port.out.client.banking.RegisteredBankAccountAggregateIdentifier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetRegisteredBankAccountPort {
 
+    private final BankingServiceClient bankingServiceClient;
     private final CommonRestClient bankingHttpClient;
     private final ObjectMapper objectMapper;
 
@@ -29,6 +31,7 @@ public class MoneyToBankingServiceAdapter implements BankingForMoneyPort, GetReg
         log.info("url: {}", url);
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         try {
+            bankingServiceClient.getLinkedBankAccounts(url);
             String jsonResponse = bankingHttpClient.sendGetRequest(url).toString();
             return objectMapper.readValue(jsonResponse, BankAccountForMoney.class);
         } catch (Exception e) {
