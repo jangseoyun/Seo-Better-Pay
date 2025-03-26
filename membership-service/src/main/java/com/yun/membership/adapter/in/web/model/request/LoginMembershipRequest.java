@@ -10,7 +10,7 @@ import org.hibernate.validator.constraints.Length;
 /**
  * membershipId를 통해 로그인이 가능하다
  */
-public record LoginMembershipRequest(
+public record LoginMembershipRequest (
         @NotNull @NotBlank @NotEmpty
         @Length(min = 5, max = 12, message = "아이디는 5자 ~ 12자 사이를 입력합니다.")
         @Pattern(regexp = "[a-z\\d]{5,12}", message = "가입된 아이디 형태가 아닙니다.")

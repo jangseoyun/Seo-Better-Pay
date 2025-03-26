@@ -7,9 +7,7 @@ import com.yun.membership.adapter.in.web.model.request.JwtTokenValidationRequest
 import com.yun.membership.adapter.in.web.model.request.LoginMembershipRequest;
 import com.yun.membership.adapter.in.web.model.request.MembershipRefreshTokenRequest;
 import com.yun.membership.application.port.in.LoginMembershipUseCase;
-import com.yun.membership.jwt.JwtToken;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +16,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.net.http.HttpResponse;
 
 @Slf4j
 @WebAdapter

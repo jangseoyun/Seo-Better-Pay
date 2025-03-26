@@ -5,6 +5,8 @@ logging:
     org.hibernate.type.descriptor.sql.BasicBinder: trace
 
 spring:
+  config:
+    import: "optional:configserver:http://localhost:8888"
   datasource:
     url: ${URL}
     username: ${USERNAME}
@@ -19,5 +21,4 @@ spring:
       hibernate.format_sql: true
       hibernate.default_batch_fetch_size: 100
   sql.init.mode: always
-
 
