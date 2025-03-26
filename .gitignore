@@ -203,10 +203,11 @@ common.env
 Makefile
 
 db/
-ngrinder-controller/
 
 logging-service/src/test/resources/application.yml
 logging-service/src/main/resources/application.yml
 payment-service/src/main/resources/application-openapi.yml
 wiretransfer-service/out/test/resources/application.yml
 wiretransfer-service/src/test/resources/application.yml
+
+axon-server-se/data/_diagnostics/

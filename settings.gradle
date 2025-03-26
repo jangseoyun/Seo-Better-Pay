@@ -1,10 +1,10 @@
 rootProject.name = 'seo-better-pay'
 
-include('membership-service')
 include('common')
+include('logging-service')
+include('membership-service')
 include('banking-service')
 include('money-service')
-include('logging-service')
 include('task-service')
 include('wiretransfer-service')
 include('openbanking-service')
