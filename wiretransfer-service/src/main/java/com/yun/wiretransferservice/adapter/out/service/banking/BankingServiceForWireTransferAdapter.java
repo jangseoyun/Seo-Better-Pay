@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 public class BankingServiceForWireTransferAdapter implements BankingForWireTransferPort {
 
     private final CommonRestClient bankingHttpClient;
+
     @Value("${service.banking.url}")
     private String bankingServiceUrl;
 
