@@ -11,6 +11,10 @@ public class MembershipRoutesConfig {
     @Bean
     public RouteLocator membershipRoute(RouteLocatorBuilder locatorBuilder) {
         return locatorBuilder.routes()
+                .route("membership-actuator-request", predicate -> predicate
+                        .path("/api/v1/membership/actuator/**")
+                        .uri("http://membership-service:8080")
+                )
                 .route("membership-login-request", predicate -> predicate
                         .path("/api/v1/membership/register", "/api/v1/membership/login")
                         .uri("http://membership-service:8080")
