@@ -39,18 +39,16 @@ repositories {
 dependencies {
 	implementation project(':common')
 	implementation project(':logging-service')
+
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	implementation 'org.jetbrains:annotations:24.0.1'
 
 	implementation 'mysql:mysql-connector-java:8.0.33'
-
-	compileOnly 'org.projectlombok:lombok'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'com.tngtech.archunit:archunit-junit5:1.2.1'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -61,7 +59,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
-openApi {
+/*openApi {
 	apiDocsUrl.set("http://localhost:8087/payment/success-payment") // 실제 API 엔드포인트
 	outputDir.set(file("${rootDir}/generated/openapi"))
 	outputFileName.set("seobetterpay-payment-doc.json")
@@ -73,10 +71,14 @@ openApi {
 		args.set(["--springdoc.api-docs.enabled=true"])
 		args.add("--spring.profiles.active=openapi")
 	}
-}
+}*/
 
-tasks.named("forkedSpringBootRun") {
+/*tasks.named("forkedSpringBootRun") {
 	dependsOn(":common:jar", ":logging-service:jar")
+}*/
+
+tasks.named('test') {
+	useJUnitPlatform()
 }
 
 // 테스트 코드를 제외한 빌드 수행
