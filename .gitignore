@@ -211,3 +211,4 @@ wiretransfer-service/out/test/resources/application.yml
 wiretransfer-service/src/test/resources/application.yml
 
 axon-server-se/data/_diagnostics/
+docker-compose.yml
