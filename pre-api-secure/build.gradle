@@ -32,18 +32,16 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.session:spring-session-core:3.2.1'
-	//implementation project(':common')
+	implementation project(':common')
 
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.springframework.session:spring-session-core:3.2.1'
+	compileOnly 'org.projectlombok:lombok:1.18.30'
+	annotationProcessor 'org.projectlombok:lombok:1.18.30'
 	implementation 'org.springframework.boot:spring-boot-configuration-processor'
-	compileOnly 'org.projectlombok:lombok'
-	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-
 	//runtimeOnly 'org.postgresql:postgresql'
 }
 
@@ -64,10 +62,4 @@ docker {
 	files tasks.bootJar.outputs.files
 	//docker에 전달할 인자
 	buildArgs(['JAR_FILE': tasks.bootJar.outputs.files.singleFile.name])
-}
-
-dependencyManagement {
-	imports {
-		mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2023.0.0'
-	}
 }
