@@ -212,3 +212,5 @@ wiretransfer-service/src/test/resources/application.yml
 
 axon-server-se/data/_diagnostics/
 docker-compose.yml
+config-service/src/main/resources/application-docker.yml
+config-service/src/main/resources/seobetterpay.yml
